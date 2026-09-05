@@ -7,26 +7,72 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#07080d;--panel:#11131b;--panel2:#171a24;--border:#ffffff12;--purple:#8b5cf6;--purple2:#a78bfa;--green:#4ade80;--red:#fb7185;--gold:#facc15;--muted:#85899b;--text:#f7f7fa}
-body{background:radial-gradient(circle at 50% -15%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-button,input{font:inherit}.app{width:min(1450px,95vw);margin:auto;padding:18px 0 40px}
-header{height:52px;display:flex;justify-content:space-between;align-items:center}.logo{font-size:23px;font-weight:950;letter-spacing:-1px}.logo span{color:var(--purple2)}
-.header-right{display:flex;align-items:center;gap:7px}.clock{font-size:10px;color:var(--muted);margin-right:7px}.btn{border:1px solid var(--border);background:#ffffff06;border-radius:10px;padding:8px 11px;color:#bbb;cursor:pointer;font-size:10px}.btn:hover{background:#ffffff0d}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 10px}.stat{background:#ffffff04;border:1px solid var(--border);border-radius:15px;padding:13px 15px}.stat small{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat b{display:block;font-size:20px;margin-top:3px}
+body{background:radial-gradient(circle at 50% -15%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
+button,input,select{font:inherit}
+button{color:inherit}
+.app{width:min(1450px,95vw);margin:auto;padding:18px 0 40px}
+header{height:52px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:950;letter-spacing:-1px}.logo span{color:var(--purple2)}
+.header-right{display:flex;align-items:center;gap:7px}.clock{font-size:10px;color:var(--muted);margin-right:7px}
+.btn{border:1px solid var(--border);background:#ffffff06;border-radius:10px;padding:8px 11px;color:#bbb;cursor:pointer;font-size:10px}.btn:hover{background:#ffffff0d}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 10px}
+.stat{background:#ffffff04;border:1px solid var(--border);border-radius:15px;padding:13px 15px}
+.stat small{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat b{display:block;font-size:20px;margin-top:3px}
 .green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
-.tabs{display:flex;gap:5px;margin-bottom:10px}.tab{border:1px solid var(--border);background:#ffffff04;color:#85899b;border-radius:10px;padding:9px 15px;cursor:pointer;font-size:10px;font-weight:800}.tab.active{background:#8b5cf615;border-color:#8b5cf650;color:#c4b5fd}
-.layout{display:grid;grid-template-columns:290px 1fr 310px;gap:10px}.card{background:linear-gradient(145deg,#151720e8,#0f1118e8);border:1px solid var(--border);border-radius:19px;overflow:hidden}.head{height:51px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.head h2{font-size:14px}.head small{font-size:8px;color:var(--muted);text-transform:uppercase}
-.stock-list{padding:7px}.stock{padding:11px;border:1px solid transparent;border-radius:12px;cursor:pointer}.stock:hover{background:#ffffff05}.stock.selected{background:#8b5cf612;border-color:#8b5cf640}.stock-top,.stock-bottom{display:flex;justify-content:space-between}.stock-top b{font-size:11px}.stock-top span{font-size:11px;font-weight:850}.stock-name{font-size:9px;color:var(--muted);margin:3px 0 6px}.stock-bottom{font-size:8px;color:var(--muted)}
-.main{padding:17px}.company-title{display:flex;justify-content:space-between}.company-title h1{font-size:23px}.meta{font-size:9px;color:var(--muted);margin-top:3px}.company-price{font-size:34px;font-weight:950;letter-spacing:-2px;margin-top:13px}.change{font-size:10px;font-weight:850;margin-top:2px}.chart{height:245px;margin:12px 0;border:1px solid var(--border);border-radius:14px;background:#090a10}.chart canvas{width:100%;height:100%}
-.trade{display:grid;grid-template-columns:1fr 1fr;gap:7px}.tradebox{border:1px solid var(--border);border-radius:12px;padding:11px}.tradebox small{font-size:8px;color:var(--muted);display:block;margin-bottom:6px}.trade-row{display:flex;gap:5px}.trade-row input{width:100%;background:#ffffff07;border:1px solid var(--border);border-radius:8px;color:white;padding:8px;outline:0;font-size:11px}.trade-row button{border:0;border-radius:8px;padding:8px 12px;font-size:10px;font-weight:900;cursor:pointer}.buy{background:#4ade8020;color:var(--green)}.sell{background:#fb718520;color:var(--red)}
-.fund{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.fund div{border:1px solid var(--border);border-radius:9px;padding:8px}.fund small{font-size:7px;color:var(--muted);display:block}.fund b{font-size:10px;display:block;margin-top:3px}
-.side-section{border-bottom:1px solid var(--border)}.side-list{padding:7px}.news{padding:10px;border-bottom:1px solid var(--border)}.news:last-child{border:0}.news-top{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}.news-title{font-size:10px;font-weight:750;line-height:1.4;margin-top:5px}.news-impact{font-size:8px;margin-top:4px}
-.position{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)}.position b{font-size:9px}.position small{display:block;color:var(--muted);font-size:8px;margin-top:3px}.position-right{text-align:right;font-size:9px;font-weight:800}
+.tabs{display:flex;gap:5px;margin-bottom:10px;overflow:auto}
+.tab{white-space:nowrap;border:1px solid var(--border);background:#ffffff04;color:#85899b;border-radius:10px;padding:9px 15px;cursor:pointer;font-size:10px;font-weight:800}
+.tab.active{background:#8b5cf615;border-color:#8b5cf650;color:#c4b5fd}
+.layout{display:grid;grid-template-columns:290px 1fr 310px;gap:10px}
+.card{background:linear-gradient(145deg,#151720e8,#0f1118e8);border:1px solid var(--border);border-radius:19px;overflow:hidden}
+.head{height:51px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.head h2{font-size:14px}.head small{font-size:8px;color:var(--muted);text-transform:uppercase}
+.stock-list{padding:7px}
+.stock{padding:11px;border:1px solid transparent;border-radius:12px;cursor:pointer}
+.stock:hover{background:#ffffff05}.stock.selected{background:#8b5cf612;border-color:#8b5cf640}
+.stock-top,.stock-bottom{display:flex;justify-content:space-between}.stock-top b{font-size:11px}.stock-top span{font-size:11px;font-weight:850}
+.stock-name{font-size:9px;color:var(--muted);margin:3px 0 6px}.stock-bottom{font-size:8px;color:var(--muted)}
+.main{padding:17px}
+.company-title{display:flex;justify-content:space-between}.company-title h1{font-size:23px}.meta{font-size:9px;color:var(--muted);margin-top:3px}
+.company-price{font-size:34px;font-weight:950;letter-spacing:-2px;margin-top:13px}.change{font-size:10px;font-weight:850;margin-top:2px}
+.chart{height:245px;margin:12px 0;border:1px solid var(--border);border-radius:14px;background:#090a10}.chart canvas{width:100%;height:100%;display:block}
+.trade{display:grid;grid-template-columns:1fr 1fr;gap:7px}.tradebox{border:1px solid var(--border);border-radius:12px;padding:11px}
+.tradebox small{font-size:8px;color:var(--muted);display:block;margin-bottom:6px}.trade-row{display:flex;gap:5px}
+.trade-row input{width:100%;background:#ffffff07;border:1px solid var(--border);border-radius:8px;color:white;padding:8px;outline:0;font-size:11px}
+.trade-row button{border:0;border-radius:8px;padding:8px 12px;font-size:10px;font-weight:900;cursor:pointer}.buy{background:#4ade8020;color:var(--green)}.sell{background:#fb718520;color:var(--red)}
+.fund{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.fund div{border:1px solid var(--border);border-radius:9px;padding:8px}.fund small{font-size:7px;color:var(--muted);display:block}.fund b{font-size:10px;display:block;margin-top:3px}
+.side-section{border-bottom:1px solid var(--border)}.news{padding:10px;border-bottom:1px solid var(--border)}.news:last-child{border:0}
+.news-top{display:flex;justify-content:space-between;font-size:8px;color:var(--muted)}.news-title{font-size:10px;font-weight:750;line-height:1.4;margin-top:5px}.news-impact{font-size:8px;margin-top:4px}
+.position{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)}
+.position b{font-size:9px}.position small{display:block;color:var(--muted);font-size:8px;margin-top:3px}.position-right{text-align:right;font-size:9px;font-weight:800}
 .page{display:none}.page.active{display:block}
-.empire{display:grid;grid-template-columns:1.3fr .7fr;gap:10px}.owned-company{padding:15px;border-bottom:1px solid var(--border)}.owned-company:last-child{border:0}.owned-top{display:flex;justify-content:space-between}.owned-top h3{font-size:14px}.owned-top span{font-size:10px;color:var(--purple2)}.bars{margin:11px 0}.bar-label{display:flex;justify-content:space-between;font-size:8px;color:var(--muted);margin-bottom:3px}.bar{height:5px;border-radius:10px;background:#ffffff0b;overflow:hidden}.bar i{display:block;height:100%;background:var(--purple);border-radius:10px}.actions{display:flex;flex-wrap:wrap;gap:5px}.action{border:1px solid var(--border);background:#ffffff05;border-radius:8px;padding:7px 9px;font-size:8px;cursor:pointer}.action:hover{border-color:#8b5cf650;background:#8b5cf610}
-.acq{padding:10px}.acq-card{padding:13px;border:1px solid var(--border);border-radius:13px;margin-bottom:7px}.acq-top{display:flex;justify-content:space-between}.acq-top b{font-size:11px}.acq-top span{font-size:9px;color:var(--muted)}.acq-info{font-size:8px;color:var(--muted);margin:5px 0 9px}.acq button{width:100%;padding:8px;border:0;border-radius:8px;background:#8b5cf620;color:#bca7ff;font-size:9px;font-weight:850;cursor:pointer}.locked{opacity:.45}
+.empire{display:grid;grid-template-columns:1.3fr .7fr;gap:10px}
+.owned-company{padding:15px;border-bottom:1px solid var(--border)}.owned-company:last-child{border:0}
+.owned-top{display:flex;justify-content:space-between}.owned-top h3{font-size:14px}.owned-top span{font-size:10px;color:var(--purple2)}
+.bars{margin:11px 0}.bar-label{display:flex;justify-content:space-between;font-size:8px;color:var(--muted);margin-bottom:3px}
+.bar{height:5px;border-radius:10px;background:#ffffff0b;overflow:hidden}.bar i{display:block;height:100%;background:var(--purple);border-radius:10px}
+.actions{display:flex;flex-wrap:wrap;gap:5px}.action{border:1px solid var(--border);background:#ffffff05;border-radius:8px;padding:7px 9px;font-size:8px;cursor:pointer}
+.action:hover{border-color:#8b5cf650;background:#8b5cf610}
+.acq{padding:10px}.acq-card{padding:13px;border:1px solid var(--border);border-radius:13px;margin-bottom:7px}
+.acq-top{display:flex;justify-content:space-between}.acq-top b{font-size:11px}.acq-top span{font-size:9px;color:var(--muted)}
+.acq-info{font-size:8px;color:var(--muted);margin:5px 0 9px}.acq button{width:100%;padding:8px;border:0;border-radius:8px;background:#8b5cf620;color:#bca7ff;font-size:9px;font-weight:850;cursor:pointer}
+.locked{opacity:.45}
+.startup-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:10px}
+.startup-box{padding:18px}.startup-cost{padding:17px;border:1px solid var(--border);border-radius:14px;background:#8b5cf608}
+.startup-cost small{font-size:8px;color:var(--muted);text-transform:uppercase}.startup-cost strong{font-size:30px;display:block;margin-top:4px}
+.form-group{margin-top:13px}.form-group label{font-size:8px;color:var(--muted);text-transform:uppercase}
+.form-group input,.form-group select{width:100%;margin-top:6px;background:#ffffff07;border:1px solid var(--border);border-radius:9px;padding:10px;color:white;outline:0;font-size:11px}
+.form-group select option{background:#171923}
+.launch{width:100%;margin-top:15px;padding:12px;border:0;border-radius:10px;background:#8b5cf625;color:#c4b5fd;font-size:10px;font-weight:900;cursor:pointer}
+.launch:hover{background:#8b5cf640}
+.business-stat{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.business-stat div{padding:11px;border:1px solid var(--border);border-radius:10px}
+.business-stat small{display:block;font-size:7px;color:var(--muted)}.business-stat b{display:block;font-size:13px;margin-top:3px}
+.notice{font-size:9px;color:var(--muted);line-height:1.5;margin-top:10px}
 .toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,90px);background:#171923f5;border:1px solid var(--border);padding:12px 18px;border-radius:12px;font-size:10px;font-weight:800;transition:.3s;z-index:99}.toast.show{transform:translate(-50%,0)}
-@media(max-width:1050px){.layout{grid-template-columns:240px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.empire{grid-template-columns:1fr}}
-@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.right{display:block}.fund{grid-template-columns:repeat(2,1fr)}.tabs{overflow:auto}.chart{height:210px}}
+.modal-bg{position:fixed;inset:0;background:#000c;backdrop-filter:blur(8px);display:none;place-items:center;z-index:100}.modal-bg.show{display:grid}
+.modal{width:min(470px,92vw);padding:24px}.modal h2{font-size:21px}.modal p{font-size:10px;color:var(--muted);line-height:1.6;margin-top:7px}
+@media(max-width:1100px){.layout{grid-template-columns:240px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.startup-grid,.empire{grid-template-columns:1fr}}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.right{display:block}.fund{grid-template-columns:repeat(2,1fr)}.trade{grid-template-columns:1fr}.chart{height:210px}}
 </style>
 </head>
 <body>
@@ -53,6 +99,7 @@ header{height:52px;display:flex;justify-content:space-between;align-items:center
 <button class="tab" data-page="portfolio">PORTFOLIO</button>
 <button class="tab" data-page="empire">MY EMPIRE</button>
 <button class="tab" data-page="acquisitions">ACQUISITIONS</button>
+<button class="tab" data-page="startup">START BUSINESS</button>
 </nav>
 
 <div id="marketPage" class="page active">
@@ -73,8 +120,14 @@ header{height:52px;display:flex;justify-content:space-between;align-items:center
 <div class="chart"><canvas id="canvas"></canvas></div>
 
 <div class="trade">
-<div class="tradebox"><small>BUY SHARES</small><div class="trade-row"><input id="buyAmount" type="number" min="1" value="10"><button class="buy" id="buy">BUY</button></div></div>
-<div class="tradebox"><small>SELL SHARES</small><div class="trade-row"><input id="sellAmount" type="number" min="1" value="10"><button class="sell" id="sell">SELL</button></div></div>
+<div class="tradebox">
+<small>BUY SHARES</small>
+<div class="trade-row"><input id="buyAmount" type="number" min="1" value="10"><button class="buy" id="buy">BUY</button></div>
+</div>
+<div class="tradebox">
+<small>SELL SHARES</small>
+<div class="trade-row"><input id="sellAmount" type="number" min="1" value="10"><button class="sell" id="sell">SELL</button></div>
+</div>
 </div>
 
 <div class="fund">
@@ -129,6 +182,8 @@ header{height:52px;display:flex;justify-content:space-between;align-items:center
 <div class="acq" id="acquisitions"></div>
 </section>
 </div>
+
+<div id="startupPage" class="page"></div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -137,50 +192,103 @@ header{height:52px;display:flex;justify-content:space-between;align-items:center
 "use strict";
 
 const $=id=>document.getElementById(id);
-const money=n=>"$"+Math.floor(n).toLocaleString();
+const money=n=>"$"+Math.floor(Math.max(0,n)).toLocaleString();
 const pct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
 
 const companies=[
-{id:"NOVA",name:"Nova Technologies",sector:"Technology",style:"Growth",price:50,shares:10000000,growth:.075,vol:.035,div:.012,revenue:120e6,profit:20e6,debt:32e6,companyCash:65e6,employees:1800,rd:50,management:70},
-{id:"QCORE",name:"Quantum Core",sector:"Technology",style:"Speculative",price:82,shares:5000000,growth:.11,vol:.065,div:0,revenue:80e6,profit:9e6,debt:75e6,companyCash:28e6,employees:950,rd:75,management:62},
-{id:"ATLS",name:"Atlas Energy",sector:"Energy",style:"Value",price:36,shares:18000000,growth:.035,vol:.025,div:.052,revenue:350e6,profit:62e6,debt:110e6,companyCash:90e6,employees:4300,rd:35,management:78},
-{id:"BLUE",name:"BlueMart",sector:"Retail",style:"Defensive",price:28,shares:25000000,growth:.025,vol:.018,div:.034,revenue:620e6,profit:78e6,debt:140e6,companyCash:120e6,employees:12000,rd:30,management:82},
-{id:"MEDX",name:"Medica Labs",sector:"Healthcare",style:"Growth",price:64,shares:9000000,growth:.085,vol:.04,div:.008,revenue:190e6,profit:28e6,debt:55e6,companyCash:45e6,employees:2400,rd:82,management:73},
-{id:"ORBT",name:"Orbit Motors",sector:"Automotive",style:"Cyclical",price:44,shares:12000000,growth:.055,vol:.05,div:.018,revenue:480e6,profit:41e6,debt:210e6,companyCash:70e6,employees:8500,rd:62,management:65},
-{id:"BANK",name:"Atlas Bank",sector:"Finance",style:"Value",price:31,shares:30000000,growth:.032,vol:.022,div:.058,revenue:410e6,profit:91e6,debt:90e6,companyCash:180e6,employees:5100,rd:25,management:85},
-{id:"SYNX",name:"Synex Robotics",sector:"Robotics",style:"Speculative",price:19,shares:22000000,growth:.13,vol:.075,div:0,revenue:50e6,profit:3e6,debt:95e6,companyCash:20e6,employees:700,rd:90,management:58},
-{id:"FUEL",name:"FuelWorks",sector:"Energy",style:"Cyclical",price:73,shares:7000000,growth:.02,vol:.06,div:.041,revenue:710e6,profit:83e6,debt:260e6,companyCash:100e6,employees:7200,rd:28,management:71},
-{id:"CLOUD",name:"CloudNine",sector:"Software",style:"Growth",price:91,shares:6000000,growth:.105,vol:.055,div:.003,revenue:260e6,profit:39e6,debt:42e6,companyCash:110e6,employees:3200,rd:78,management:76}
+{id:"NOVA",name:"Nova Technologies",sector:"Technology",style:"Growth",price:50,shares:1e7,growth:.075,vol:.035,div:.012,revenue:120e6,profit:20e6,debt:32e6,companyCash:65e6,employees:1800,rd:50,management:70},
+{id:"QCORE",name:"Quantum Core",sector:"Technology",style:"Speculative",price:82,shares:5e6,growth:.11,vol:.065,div:0,revenue:80e6,profit:9e6,debt:75e6,companyCash:28e6,employees:950,rd:75,management:62},
+{id:"ATLS",name:"Atlas Energy",sector:"Energy",style:"Value",price:36,shares:18e6,growth:.035,vol:.025,div:.052,revenue:350e6,profit:62e6,debt:110e6,companyCash:90e6,employees:4300,rd:35,management:78},
+{id:"BLUE",name:"BlueMart",sector:"Retail",style:"Defensive",price:28,shares:25e6,growth:.025,vol:.018,div:.034,revenue:620e6,profit:78e6,debt:140e6,companyCash:120e6,employees:12000,rd:30,management:82},
+{id:"MEDX",name:"Medica Labs",sector:"Healthcare",style:"Growth",price:64,shares:9e6,growth:.085,vol:.04,div:.008,revenue:190e6,profit:28e6,debt:55e6,companyCash:45e6,employees:2400,rd:82,management:73},
+{id:"ORBT",name:"Orbit Motors",sector:"Automotive",style:"Cyclical",price:44,shares:12e6,growth:.055,vol:.05,div:.018,revenue:480e6,profit:41e6,debt:210e6,companyCash:70e6,employees:8500,rd:62,management:65},
+{id:"BANK",name:"Atlas Bank",sector:"Finance",style:"Value",price:31,shares:30e6,growth:.032,vol:.022,div:.058,revenue:410e6,profit:91e6,debt:90e6,companyCash:180e6,employees:5100,rd:25,management:85},
+{id:"SYNX",name:"Synex Robotics",sector:"Robotics",style:"Speculative",price:19,shares:22e6,growth:.13,vol:.075,div:0,revenue:50e6,profit:3e6,debt:95e6,companyCash:20e6,employees:700,rd:90,management:58},
+{id:"FUEL",name:"FuelWorks",sector:"Energy",style:"Cyclical",price:73,shares:7e6,growth:.02,vol:.06,div:.041,revenue:710e6,profit:83e6,debt:260e6,companyCash:100e6,employees:7200,rd:28,management:71},
+{id:"CLOUD",name:"CloudNine",sector:"Software",style:"Growth",price:91,shares:6e6,growth:.105,vol:.055,div:.003,revenue:260e6,profit:39e6,debt:42e6,companyCash:110e6,employees:3200,rd:78,management:76}
 ];
 
-const state={
-cash:100000,holdings:{},costBasis:{},owned:{},prices:{},history:{},news:[],
-day:1,tick:0,market:"BULLISH",selected:"NOVA",speed:1,lastSave:Date.now()
+const businessTypes={
+technology:{revenue:18000,expenses:12500,growth:.035,employees:12,risk:.035},
+retail:{revenue:24000,expenses:20500,growth:.018,employees:24,risk:.02},
+food:{revenue:16000,expenses:14200,growth:.022,employees:15,risk:.03},
+automotive:{revenue:32000,expenses:27500,growth:.025,employees:35,risk:.045},
+energy:{revenue:40000,expenses:33000,growth:.03,employees:28,risk:.05},
+healthcare:{revenue:22000,expenses:14500,growth:.04,employees:18,risk:.035},
+software:{revenue:26000,expenses:13500,growth:.055,employees:10,risk:.05}
 };
 
-companies.forEach(c=>{state.prices[c.id]=c.price;state.history[c.id]=[c.price]});
+const state={
+cash:100000,
+holdings:{},
+costBasis:{},
+owned:{},
+prices:{},
+history:{},
+news:[],
+business:null,
+day:1,
+tick:0,
+market:"BULLISH",
+selected:"NOVA",
+speed:1,
+lastSave:Date.now()
+};
 
-const acquisitionPrice=c=>state.prices[c.id]*c.shares*1.2;
-const portfolioValue=()=>companies.reduce((v,c)=>v+(state.holdings[c.id]||0)*state.prices[c.id],0);
-const ownedValue=()=>companies.reduce((v,c)=>state.owned[c.id]?v+state.prices[c.id]*c.shares: v,0);
-const netWorth=()=>state.cash+portfolioValue()+ownedValue();
-const ownership=c=>(state.holdings[c.id]||0)/c.shares*100;
+companies.forEach(c=>{
+state.prices[c.id]=c.price;
+state.history[c.id]=[c.price];
+});
+
 const selected=()=>companies.find(c=>c.id===state.selected);
+const portfolioValue=()=>companies.reduce((v,c)=>v+(state.holdings[c.id]||0)*state.prices[c.id],0);
+const ownedValue=()=>companies.reduce((v,c)=>state.owned[c.id]?v+state.prices[c.id]*c.shares:v,0);
+const businessValue=()=>state.business?.value||0;
+const netWorth=()=>state.cash+portfolioValue()+ownedValue()+businessValue();
+const ownership=c=>(state.holdings[c.id]||0)/c.shares*100;
+const acquisitionPrice=c=>state.prices[c.id]*c.shares*1.2;
+
+function toast(text){
+const e=$("toast");
+e.textContent=text;
+e.classList.add("show");
+clearTimeout(window.toastTimer);
+window.toastTimer=setTimeout(()=>e.classList.remove("show"),2400);
+}
 
 function addNews(ticker,text,impact){
 state.news.unshift({ticker,text,impact,day:state.day});
 state.news=state.news.slice(0,30);
 }
 
-function event(){
+function saveGame(show=true){
+state.lastSave=Date.now();
+localStorage.setItem("market_mogul_v3",JSON.stringify(state));
+if(show)toast("Game saved.");
+}
+
+function loadGame(){
+try{
+const saved=JSON.parse(localStorage.getItem("market_mogul_v3"));
+if(saved){
+Object.assign(state,saved);
+}
+}catch{}
+companies.forEach(c=>{
+if(!state.prices[c.id])state.prices[c.id]=c.price;
+if(!state.history[c.id])state.history[c.id]=[state.prices[c.id]];
+});
+}
+
+function companyEvent(){
 const c=companies[Math.floor(Math.random()*companies.length)];
 const events=[
 ["reports record quarterly earnings",.08],
 ["announces a breakthrough product",.12],
-["wins a major government contract",.1],
+["wins a major government contract",.10],
 ["CEO unexpectedly resigns",-0.08],
 ["faces a regulatory investigation",-0.12],
-["misses earnings expectations",-0.1],
+["misses earnings expectations",-0.10],
 ["opens a massive new facility",.06],
 ["loses a major customer",-0.09],
 ["announces aggressive expansion",.055],
@@ -193,8 +301,50 @@ c.profit*=1+e[1]*.35;
 addNews(c.id,`${c.name} ${e[0]}.`,e[1]>=0?`+${(e[1]*100).toFixed(1)}%`:`${(e[1]*100).toFixed(1)}%`);
 }
 
+function payDividends(){
+companies.forEach(c=>{
+const shares=state.holdings[c.id]||0;
+if(shares&&c.div)state.cash+=shares*state.prices[c.id]*c.div/365;
+if(state.owned[c.id]&&c.div)state.cash+=c.shares*state.prices[c.id]*c.div/365;
+});
+}
+
+function businessTick(){
+const b=state.business;
+if(!b)return;
+
+const demand=1+(b.reputation-50)/500+(b.marketing-50)/600+(b.rd-30)/800;
+const growth=1+b.growth/365;
+const revenue=b.revenue*demand*growth;
+const expenses=b.expenses;
+
+b.revenue=revenue;
+b.expenses=expenses;
+b.profit=revenue-expenses;
+b.cash+=b.profit;
+b.days++;
+
+if(Math.random()<b.risk){
+b.reputation=Math.max(0,b.reputation-3);
+b.expenses*=1.03;
+addNews("YOUR BUSINESS",`${b.name} ran into an unexpected business problem.`,"-");
+}
+
+if(b.profit>0)b.morale=Math.min(100,b.morale+.4);
+else b.morale=Math.max(0,b.morale-1);
+
+b.value=Math.max(0,b.cash*3+b.revenue*12+b.reputation*1000);
+
+if(b.cash<=0){
+b.cash=0;
+toast(`⚠ ${b.name} is running out of cash!`);
+addNews("YOUR BUSINESS",`${b.name} has run out of operating capital.`,"BANKRUPT");
+}
+}
+
 function marketTick(){
 state.tick++;
+
 companies.forEach(c=>{
 let move=c.growth/365+(Math.random()-.5)*c.vol;
 if(state.market==="BULLISH")move+=.002;
@@ -202,98 +352,209 @@ if(state.market==="BEARISH")move-=.002;
 if(c.style==="Defensive")move*=.55;
 if(c.style==="Speculative")move*=1.35;
 if(state.owned[c.id])move+=.0008;
+
 state.prices[c.id]=Math.max(.5,state.prices[c.id]*(1+move));
 state.history[c.id].push(state.prices[c.id]);
+
 if(state.history[c.id].length>100)state.history[c.id].shift();
 });
 
 if(state.tick%30===0){
 state.day++;
+
 companies.forEach(c=>{
 c.revenue*=1+c.growth/365;
 c.profit*=1+c.growth/730;
+
 if(state.owned[c.id]){
 c.revenue*=1.0015;
 c.profit*=1.002;
 }
 });
-if(Math.random()<.3)event();
+
+businessTick();
+
+if(Math.random()<.30)companyEvent();
+
 if(Math.random()<.08){
 state.market=state.market==="BULLISH"?"NEUTRAL":state.market==="BEARISH"?"NEUTRAL":Math.random()<.5?"BULLISH":"BEARISH";
 addNews("MARKET",state.market==="BULLISH"?"Investor confidence surges as markets turn bullish.":state.market==="BEARISH"?"Markets enter a major risk-off period as investors flee stocks.":"Markets stabilize after volatility.",state.market==="BULLISH"?"+":"-");
 }
+
 payDividends();
 }
 }
 
-function payDividends(){
-companies.forEach(c=>{
-let shares=state.holdings[c.id]||0;
-if(shares&&c.div)state.cash+=shares*state.prices[c.id]*c.div/365;
-if(state.owned[c.id]&&c.div)state.cash+=c.shares*state.prices[c.id]*c.div/365;
-});
+function buy(){
+const c=selected();
+const amount=Math.floor(Number($("buyAmount").value));
+
+if(!amount||amount<1)return;
+
+const cost=amount*state.prices[c.id];
+
+if(cost>state.cash){
+toast("You don't have enough cash.");
+return;
 }
 
-function buy(){
-const c=selected(),n=Math.floor(Number($("buyAmount").value));
-if(!n||n<1)return;
-const cost=n*state.prices[c.id];
-if(cost>state.cash)return toast("You don't have enough cash.");
 state.cash-=cost;
-state.holdings[c.id]=(state.holdings[c.id]||0)+n;
+state.holdings[c.id]=(state.holdings[c.id]||0)+amount;
 state.costBasis[c.id]=(state.costBasis[c.id]||0)+cost;
-toast(`Bought ${n.toLocaleString()} ${c.id} shares.`);
+
+toast(`Bought ${amount.toLocaleString()} ${c.id} shares.`);
 render();
 }
 
 function sell(){
-const c=selected(),n=Math.floor(Number($("sellAmount").value)),owned=state.holdings[c.id]||0;
-if(!n||n<1)return;
-if(n>owned)return toast("You don't own enough shares.");
-const value=n*state.prices[c.id];
+const c=selected();
+const amount=Math.floor(Number($("sellAmount").value));
+const owned=state.holdings[c.id]||0;
+
+if(!amount||amount<1)return;
+
+if(amount>owned){
+toast("You don't own enough shares.");
+return;
+}
+
+const value=amount*state.prices[c.id];
+
 state.cash+=value;
-state.holdings[c.id]-=n;
+state.holdings[c.id]-=amount;
 state.costBasis[c.id]=Math.max(0,(state.costBasis[c.id]||0)-value);
-toast(`Sold ${n.toLocaleString()} ${c.id} shares.`);
+
+toast(`Sold ${amount.toLocaleString()} ${c.id} shares.`);
 render();
 }
 
 function acquire(id){
 const c=companies.find(x=>x.id===id);
-if(state.owned[id])return toast("You already own this company.");
+if(!c||state.owned[id])return;
+
 const cost=acquisitionPrice(c);
-if(state.cash<cost)return toast(`You need ${money(cost-state.cash)} more cash.`);
+
+if(state.cash<cost){
+toast(`You need ${money(cost-state.cash)} more cash.`);
+return;
+}
+
+if(!confirm(`Acquire ${c.name} for ${money(cost)}?`))return;
+
 state.cash-=cost;
 state.owned[id]=true;
 state.holdings[id]=c.shares;
 state.costBasis[id]=cost;
-toast(`🏢 YOU ACQUIRED ${c.name.toUpperCase()}!`);
-addNews("YOUR EMPIRE",`You acquired ${c.name} for ${money(cost)}.`,`+$${(cost/1e6).toFixed(1)}M`);
+
+addNews("YOUR EMPIRE",`You acquired ${c.name} for ${money(cost)}.`,"ACQUIRED");
+toast(`🏢 ${c.name.toUpperCase()} IS NOW YOURS!`);
+
 render();
 }
 
-function management(id,action){
-const c=companies.find(x=>x.id===id);
-if(!state.owned[id])return;
-const actions={
-rd:["R&D investment",2e6,()=>{c.rd=Math.min(100,c.rd+8);c.growth+=.008}],
-factory:["New factory",8e6,()=>{c.revenue+=25e6;c.employees+=800}],
-marketing:["Global marketing",4e6,()=>{c.revenue+=15e6;c.management=Math.min(100,c.management+3)}],
-cut:["Cost reduction",0,()=>{c.profit+=12e6;c.debt=Math.max(0,c.debt-5e6)}]
+function startBusiness(){
+if(state.business){
+toast("You already own a private business.");
+return;
+}
+
+const name=$("businessName").value.trim();
+const industry=$("businessIndustry").value;
+
+if(!name){
+toast("Give your business a name.");
+return;
+}
+
+if(state.cash<1000){
+toast("You need at least $1,000 to start.");
+return;
+}
+
+const startupCost=state.cash*.8;
+const operatingCash=state.cash*.2;
+const t=businessTypes[industry];
+
+if(!confirm(`Start ${name} for ${money(startupCost)}?\n\nYou'll invest 80% of your cash and keep ${money(operatingCash)}.`))return;
+
+state.cash=operatingCash;
+
+state.business={
+name,
+industry,
+cash:startupCost,
+revenue:t.revenue,
+expenses:t.expenses,
+profit:t.revenue-t.expenses,
+growth:t.growth,
+employees:t.employees,
+risk:t.risk,
+marketing:50,
+rd:30,
+morale:70,
+reputation:25,
+value:startupCost,
+days:0
 };
+
+addNews("STARTUP",`${name} has officially entered the market.`,"NEW");
+toast(`🚀 ${name.toUpperCase()} IS NOW YOUR COMPANY!`);
+render();
+}
+
+function manageBusiness(action){
+const b=state.business;
+if(!b)return;
+
+const actions={
+marketing:[2500,()=>{
+b.marketing=Math.min(100,b.marketing+8);
+b.reputation=Math.min(100,b.reputation+3);
+}],
+hire:[5000,()=>{
+b.employees+=5;
+b.morale=Math.min(100,b.morale+4);
+b.expenses+=1800;
+}],
+rd:[7500,()=>{
+b.rd=Math.min(100,b.rd+8);
+b.growth+=.004;
+}],
+expand:[20000,()=>{
+b.revenue*=1.12;
+b.expenses*=1.08;
+b.employees+=10;
+}],
+price:[0,()=>{
+b.revenue*=1.08;
+b.reputation=Math.max(0,b.reputation-2);
+}]
+};
+
 const a=actions[action];
 if(!a)return;
-if(state.cash<a[1])return toast("Your holding company can't afford that.");
-state.cash-=a[1];
-a[2]();
-toast(`${a[0]} completed for ${c.name}.`);
-addNews(c.id,`${a[0]} program launched by your management.`, "POSITIVE");
+
+const cost=a[0];
+
+if(cost>0){
+if(state.cash>=cost)state.cash-=cost;
+else if(b.cash>=cost)b.cash-=cost;
+else{
+toast("Your business can't afford this.");
+return;
+}
+}
+
+a[1]();
+toast("Business strategy executed.");
 render();
 }
 
 function renderMarket(){
 $("stocks").innerHTML=companies.map(c=>{
-const h=state.history[c.id],change=(state.prices[c.id]/h[0]-1)*100;
+const h=state.history[c.id];
+const change=(state.prices[c.id]/h[0]-1)*100;
+
 return `<div class="stock ${c.id===state.selected?"selected":""}" data-stock="${c.id}">
 <div class="stock-top"><b>${c.id}</b><span>${money(state.prices[c.id])}</span></div>
 <div class="stock-name">${c.name}</div>
@@ -302,26 +563,64 @@ return `<div class="stock ${c.id===state.selected?"selected":""}" data-stock="${
 }).join("");
 }
 
-function draw(){
-const canvas=$("canvas"),r=canvas.getBoundingClientRect(),d=devicePixelRatio||1;
-canvas.width=r.width*d;canvas.height=r.height*d;
-const ctx=canvas.getContext("2d");ctx.scale(d,d);
-const data=state.history[state.selected],w=r.width,h=r.height,p=18,min=Math.min(...data),max=Math.max(...data),range=max-min||1;
+function drawChart(){
+const canvas=$("canvas");
+const rect=canvas.getBoundingClientRect();
+const d=devicePixelRatio||1;
+
+canvas.width=rect.width*d;
+canvas.height=rect.height*d;
+
+const ctx=canvas.getContext("2d");
+ctx.scale(d,d);
+
+const data=state.history[state.selected];
+const w=rect.width;
+const h=rect.height;
+const pad=18;
+
+if(data.length<2)return;
+
+const min=Math.min(...data);
+const max=Math.max(...data);
+const range=max-min||1;
+
 ctx.strokeStyle="#ffffff0a";
-for(let i=1;i<5;i++){let y=i*h/5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+
+for(let i=1;i<5;i++){
+const y=i*h/5;
 ctx.beginPath();
-data.forEach((v,i)=>{let x=p+i/(data.length-1)*(w-p*2),y=h-p-(v-min)/range*(h-p*2);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
-ctx.strokeStyle="#9d7aff";ctx.lineWidth=2;ctx.stroke();
+ctx.moveTo(0,y);
+ctx.lineTo(w,y);
+ctx.stroke();
+}
+
+ctx.beginPath();
+
+data.forEach((v,i)=>{
+const x=pad+i/(data.length-1)*(w-pad*2);
+const y=h-pad-(v-min)/range*(h-pad*2);
+i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+});
+
+ctx.strokeStyle="#9d7aff";
+ctx.lineWidth=2;
+ctx.stroke();
 }
 
 function renderCompany(){
-const c=selected(),p=state.prices[c.id],h=state.history[c.id],ch=(p/h[0]-1)*100;
+const c=selected();
+const p=state.prices[c.id];
+const h=state.history[c.id];
+const change=(p/h[0]-1)*100;
+
 $("companyName").textContent=c.name;
 $("companyMeta").textContent=`${c.sector} • ${c.style}`;
 $("price").textContent=money(p);
-$("change").textContent=pct(ch);
-$("change").className="change "+(ch>=0?"green":"red");
+$("change").textContent=pct(change);
+$("change").className="change "+(change>=0?"green":"red");
 $("ownership").textContent=ownership(c).toFixed(2)+"% OWNED";
+
 $("cap").textContent=money(p*c.shares);
 $("revenue").textContent=money(c.revenue);
 $("profit").textContent=money(c.profit);
@@ -330,144 +629,376 @@ $("debt").textContent=money(c.debt);
 $("companyCash").textContent=money(c.companyCash);
 $("dividend").textContent=(c.div*100).toFixed(1)+"%";
 $("employees").textContent=c.employees.toLocaleString();
-draw();
+
+drawChart();
 }
 
 function renderNews(){
-$("news").innerHTML=state.news.slice(0,7).map(n=>`<div class="news"><div class="news-top"><span>${n.ticker}</span><span>DAY ${n.day}</span></div><div class="news-title">${n.text}</div><div class="news-impact ${String(n.impact).startsWith("+")?"green":"red"}">${n.impact}</div></div>`).join("")||`<div class="news"><div class="news-title">Markets are quiet...</div></div>`;
+$("news").innerHTML=state.news.slice(0,7).map(n=>`
+<div class="news">
+<div class="news-top"><span>${n.ticker}</span><span>DAY ${n.day}</span></div>
+<div class="news-title">${n.text}</div>
+<div class="news-impact ${String(n.impact).startsWith("+")?"green":"red"}">${n.impact}</div>
+</div>`).join("")||`
+<div class="news"><div class="news-title">Markets are quiet...</div></div>`;
 }
 
 function renderPositions(){
 const list=companies.filter(c=>(state.holdings[c.id]||0)>0);
+
 $("positionsCount").textContent=list.length+" POSITIONS";
+
 $("positions").innerHTML=list.map(c=>{
-const shares=state.holdings[c.id],value=shares*state.prices[c.id],pnl=value-(state.costBasis[c.id]||0);
-return `<div class="position"><div><b>${c.id}</b><small>${shares.toLocaleString()} shares</small></div><div class="position-right">${money(value)}<div class="${pnl>=0?"green":"red"}">${pnl>=0?"+":""}${money(pnl)}</div></div></div>`;
-}).join("")||`<div class="news"><div class="news-title">No positions yet.</div></div>`;
+const shares=state.holdings[c.id];
+const value=shares*state.prices[c.id];
+const pnl=value-(state.costBasis[c.id]||0);
+
+return `<div class="position">
+<div><b>${c.id}</b><small>${shares.toLocaleString()} shares</small></div>
+<div class="position-right">${money(value)}<div class="${pnl>=0?"green":"red"}">${pnl>=0?"+":""}${money(pnl)}</div></div>
+</div>`;
+}).join("")||`
+<div class="news"><div class="news-title">No positions yet.</div></div>`;
 }
 
 function renderPortfolio(){
-$("portfolioFull").innerHTML=companies.filter(c=>(state.holdings[c.id]||0)>0).map(c=>{
-const shares=state.holdings[c.id],value=shares*state.prices[c.id],basis=state.costBasis[c.id]||0,pnl=value-basis;
-return `<div class="owned-company"><div class="owned-top"><h3>${c.name} <span>${c.id}</span></h3><b>${money(value)}</b></div><div class="meta">${shares.toLocaleString()} shares • ${ownership(c).toFixed(2)}% ownership • Cost basis ${money(basis)}</div><div class="${pnl>=0?"green":"red"}" style="font-size:10px;margin-top:7px">${pnl>=0?"+":""}${money(pnl)} P/L</div></div>`;
-}).join("")||`<div class="main">Your portfolio is empty. Find a company you believe in.</div>`;
+const list=companies.filter(c=>(state.holdings[c.id]||0)>0);
+
+$("portfolioFull").innerHTML=list.map(c=>{
+const shares=state.holdings[c.id];
+const value=shares*state.prices[c.id];
+const basis=state.costBasis[c.id]||0;
+const pnl=value-basis;
+
+return `<div class="owned-company">
+<div class="owned-top"><h3>${c.name} <span>${c.id}</span></h3><b>${money(value)}</b></div>
+<div class="meta">${shares.toLocaleString()} shares • ${ownership(c).toFixed(2)}% ownership • Cost basis ${money(basis)}</div>
+<div class="${pnl>=0?"green":"red"}" style="font-size:10px;margin-top:7px">${pnl>=0?"+":""}${money(pnl)} P/L</div>
+</div>`;
+}).join("")||`
+<div class="main">
+<h2>Your portfolio is empty.</h2>
+<p class="meta">Find a company you believe in and buy some shares.</p>
+</div>`;
 }
 
 function renderEmpire(){
 const owned=companies.filter(c=>state.owned[c.id]);
+
 $("empireValue").textContent=money(ownedValue());
-$("companiesOwned").textContent=owned.length;
-$("empireCompanies").innerHTML=owned.map(c=>`<div class="owned-company">
+
+$("empireCompanies").innerHTML=owned.map(c=>`
+<div class="owned-company">
 <div class="owned-top"><h3>${c.name}</h3><span>100% CONTROLLED</span></div>
 <div class="meta">${c.sector} • ${c.employees.toLocaleString()} employees • ${money(c.revenue)} revenue</div>
+
 <div class="bars">
-<div class="bar-label"><span>R&D</span><span>${c.rd}%</span></div><div class="bar"><i style="width:${c.rd}%"></i></div>
-<div class="bar-label" style="margin-top:6px"><span>Management</span><span>${c.management}%</span></div><div class="bar"><i style="width:${c.management}%"></i></div>
+<div class="bar-label"><span>R&D</span><span>${c.rd}%</span></div>
+<div class="bar"><i style="width:${c.rd}%"></i></div>
+
+<div class="bar-label" style="margin-top:6px"><span>Management</span><span>${c.management}%</span></div>
+<div class="bar"><i style="width:${c.management}%"></i></div>
 </div>
+
 <div class="actions">
 <button class="action" data-action="rd" data-company="${c.id}">🧪 R&D — $2M</button>
 <button class="action" data-action="factory" data-company="${c.id}">🏭 FACTORY — $8M</button>
 <button class="action" data-action="marketing" data-company="${c.id}">📣 MARKETING — $4M</button>
 <button class="action" data-action="cut" data-company="${c.id}">✂ CUT COSTS</button>
 </div>
-</div>`).join("")||`<div class="main"><h2>You don't own any companies.</h2><p class="meta">Buy enough shares or acquire a company outright to build your empire.</p></div>`;
+</div>`).join("")||`
+<div class="main">
+<h2>You don't own any companies.</h2>
+<p class="meta">Acquire a company to start building your corporate empire.</p>
+</div>`;
+
+$("companiesOwned").textContent=owned.length;
+
 $("corporateStats").innerHTML=`
-<div class="fund"><div><small>CONTROLLED</small><b>${owned.length}</b></div><div><small>EMPIRE VALUE</small><b>${money(ownedValue())}</b></div><div><small>EMPLOYEES</small><b>${owned.reduce((n,c)=>n+c.employees,0).toLocaleString()}</b></div><div><small>REVENUE</small><b>${money(owned.reduce((n,c)=>n+c.revenue,0))}</b></div></div>`;
+<div class="business-stat">
+<div><small>CONTROLLED COMPANIES</small><b>${owned.length}</b></div>
+<div><small>EMPIRE VALUE</small><b>${money(ownedValue())}</b></div>
+<div><small>EMPLOYEES</small><b>${owned.reduce((n,c)=>n+c.employees,0).toLocaleString()}</b></div>
+<div><small>REVENUE</small><b>${money(owned.reduce((n,c)=>n+c.revenue,0))}</b></div>
+</div>`;
 }
 
 function renderAcquisitions(){
 $("acquisitions").innerHTML=companies.filter(c=>!state.owned[c.id]).map(c=>{
-const cost=acquisitionPrice(c),can=state.cash>=cost;
-return `<div class="acq-card ${can?"":"locked"}"><div class="acq-top"><b>${c.name}</b><span>${c.id}</span></div><div class="acq-info">${c.sector} • Market value ${money(c.price*c.shares)} • Buyout premium 20%</div><button data-acquire="${c.id}">ACQUIRE FOR ${money(cost)}</button></div>`;
-}).join("")||`<div class="main">You own every company. You're a conglomerate.</div>`;
+const cost=acquisitionPrice(c);
+const can=state.cash>=cost;
+
+return `<div class="acq-card ${can?"":"locked"}">
+<div class="acq-top"><b>${c.name}</b><span>${c.id}</span></div>
+<div class="acq-info">${c.sector} • Market value ${money(c.price*c.shares)} • Buyout premium 20%</div>
+<button data-acquire="${c.id}">ACQUIRE FOR ${money(cost)}</button>
+</div>`;
+}).join("")||`
+<div class="main">You own every company. You're a conglomerate.</div>`;
+}
+
+function renderStartup(){
+const page=$("startupPage");
+const b=state.business;
+
+if(!b){
+const cost=state.cash*.8;
+const keep=state.cash*.2;
+
+page.innerHTML=`
+<div class="startup-grid">
+<section class="card">
+<div class="head"><h2>Start Your Own Business</h2><small>BUILD FROM ZERO</small></div>
+<div class="startup-box">
+
+<div class="startup-cost">
+<small>Required Investment • 80% Of Your Cash</small>
+<strong>${money(cost)}</strong>
+<div class="notice">You currently have ${money(state.cash)}. You'll keep ${money(keep)} as personal cash after launching.</div>
+</div>
+
+<div class="form-group">
+<label>Business Name</label>
+<input id="businessName" maxlength="30" placeholder="e.g. Sigma Industries">
+</div>
+
+<div class="form-group">
+<label>Industry</label>
+<select id="businessIndustry">
+<option value="technology">Technology</option>
+<option value="retail">Retail</option>
+<option value="food">Food & Restaurant</option>
+<option value="automotive">Automotive</option>
+<option value="energy">Energy</option>
+<option value="healthcare">Healthcare</option>
+<option value="software">Software</option>
+</select>
+</div>
+
+<button class="launch" id="startBusiness">🚀 LAUNCH BUSINESS</button>
+
+<div class="notice">
+Starting a business gives you 100% ownership, but you'll have to manage everything yourself. Your company starts small and must generate enough cash to survive.
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><h2>Your Starting Position</h2><small>BEFORE LAUNCH</small></div>
+<div class="main">
+<div class="business-stat">
+<div><small>PERSONAL CASH</small><b>${money(state.cash)}</b></div>
+<div><small>INVESTMENT</small><b>${money(cost)}</b></div>
+<div><small>REMAINING CASH</small><b>${money(keep)}</b></div>
+<div><small>OWNERSHIP</small><b>100%</b></div>
+</div>
+
+<div style="margin-top:18px">
+<h3 style="font-size:13px">How it works</h3>
+<p class="notice">Your initial 80% investment becomes the company's starting capital. The remaining 20% stays in your personal account.</p>
+<p class="notice">Your business earns revenue every day, pays expenses, and changes in value based on its performance.</p>
+<p class="notice">You can spend company or personal money on growth decisions.</p>
+</div>
+</div>
+</section>
+</div>`;
+return;
+}
+
+page.innerHTML=`
+<div class="startup-grid">
+<section class="card">
+<div class="head">
+<h2>${b.name}</h2>
+<small>PRIVATE COMPANY • 100% OWNED</small>
+</div>
+
+<div class="startup-box">
+<div class="business-stat">
+<div><small>COMPANY VALUE</small><b>${money(b.value)}</b></div>
+<div><small>COMPANY CASH</small><b>${money(b.cash)}</b></div>
+<div><small>DAILY REVENUE</small><b>${money(b.revenue)}</b></div>
+<div><small>DAILY PROFIT</small><b class="${b.profit>=0?"green":"red"}">${money(b.profit)}</b></div>
+<div><small>EMPLOYEES</small><b>${b.employees}</b></div>
+<div><small>REPUTATION</small><b>${b.reputation}/100</b></div>
+<div><small>MORALE</small><b>${b.morale}/100</b></div>
+<div><small>DAYS OPERATING</small><b>${b.days}</b></div>
+</div>
+
+<div style="margin-top:18px">
+<h3 style="font-size:13px">Business Management</h3>
+<div class="bars">
+<div class="bar-label"><span>Marketing</span><span>${b.marketing}%</span></div>
+<div class="bar"><i style="width:${b.marketing}%"></i></div>
+
+<div class="bar-label" style="margin-top:8px"><span>R&D</span><span>${b.rd}%</span></div>
+<div class="bar"><i style="width:${b.rd}%"></i></div>
+
+<div class="bar-label" style="margin-top:8px"><span>Employee Morale</span><span>${b.morale}%</span></div>
+<div class="bar"><i style="width:${b.morale}%"></i></div>
+
+<div class="bar-label" style="margin-top:8px"><span>Reputation</span><span>${b.reputation}%</span></div>
+<div class="bar"><i style="width:${b.reputation}%"></i></div>
+</div>
+
+<div class="actions">
+<button class="action" data-business-action="marketing">📣 MARKETING — $2,500</button>
+<button class="action" data-business-action="hire">👥 HIRE 5 — $5,000</button>
+<button class="action" data-business-action="rd">🧪 R&D — $7,500</button>
+<button class="action" data-business-action="expand">🏭 EXPAND — $20,000</button>
+<button class="action" data-business-action="price">💰 RAISE PRICES</button>
+</div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="head"><h2>CEO Dashboard</h2><small>YOU</small></div>
+<div class="main">
+<div class="business-stat">
+<div><small>INDUSTRY</small><b>${b.industry.toUpperCase()}</b></div>
+<div><small>GROWTH</small><b>${(b.growth*100).toFixed(1)}%</b></div>
+<div><small>EXPENSES</small><b>${money(b.expenses)}</b></div>
+<div><small>RISK</small><b>${(b.risk*100).toFixed(1)}%</b></div>
+</div>
+
+<div style="margin-top:18px">
+<h3 style="font-size:13px">CEO Notes</h3>
+<p class="notice">You're the sole owner and CEO. Every decision affects the company's future.</p>
+<p class="notice">Investing in R&D increases long-term growth.</p>
+<p class="notice">Marketing increases reputation and demand.</p>
+<p class="notice">Hiring increases capacity but raises expenses.</p>
+<p class="notice">Expansion dramatically increases revenue but requires significant capital.</p>
+</div>
+</div>
+</section>
+</div>`;
 }
 
 function renderTop(){
 $("networth").textContent=money(netWorth());
 $("cash").textContent=money(state.cash);
-$("portfolio").textContent=money(portfolioValue());
+$("portfolio").textContent=money(portfolioValue()+ownedValue()+businessValue());
 $("market").textContent=state.market;
 $("market").className=state.market==="BULLISH"?"green":state.market==="BEARISH"?"red":"gold";
 $("clock").textContent=`DAY ${state.day} • ${String(9+Math.floor(state.tick%390/60)).padStart(2,"0")}:${String(30+state.tick%60).padStart(2,"0")}`;
 }
 
 function render(){
-renderTop();renderMarket();renderCompany();renderNews();renderPositions();renderPortfolio();renderEmpire();renderAcquisitions();
+renderTop();
+renderMarket();
+renderCompany();
+renderNews();
+renderPositions();
+renderPortfolio();
+renderEmpire();
+renderAcquisitions();
+renderStartup();
 }
 
-document.querySelector(".tabs").onclick=e=>{
-const tab=e.target.closest(".tab");if(!tab)return;
+document.querySelector(".tabs").addEventListener("click",e=>{
+const tab=e.target.closest(".tab");
+if(!tab)return;
+
 document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
 document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-tab.classList.add("active");$(tab.dataset.page+"Page").classList.add("active");
-};
 
-$("stocks").onclick=e=>{
-const s=e.target.closest(".stock");if(!s)return;
-state.selected=s.dataset.stock;render();
-};
+tab.classList.add("active");
+$(tab.dataset.page+"Page").classList.add("active");
+});
+
+$("stocks").addEventListener("click",e=>{
+const stock=e.target.closest(".stock");
+if(!stock)return;
+state.selected=stock.dataset.stock;
+render();
+});
 
 $("buy").onclick=buy;
 $("sell").onclick=sell;
 
-$("empireCompanies").onclick=e=>{
-const b=e.target.closest("[data-action]");if(b)management(b.dataset.company,b.dataset.action);
-};
+$("acquisitions").addEventListener("click",e=>{
+const button=e.target.closest("[data-acquire]");
+if(button)acquire(button.dataset.acquire);
+});
 
-$("acquisitions").onclick=e=>{
-const b=e.target.closest("[data-acquire]");if(b)acquire(b.dataset.acquire);
-};
+$("empireCompanies").addEventListener("click",e=>{
+const button=e.target.closest("[data-action]");
+if(!button)return;
 
-$("save").onclick=()=>{
-state.lastSave=Date.now();
-localStorage.setItem("market_mogul_v2",JSON.stringify(state));
-toast("Game saved.");
-};
+const c=companies.find(x=>x.id===button.dataset.company);
+
+if(button.dataset.action==="rd"){
+if(state.cash<2e6)return toast("You need $2M.");
+state.cash-=2e6;
+c.rd=Math.min(100,c.rd+8);
+c.growth+=.008;
+}
+
+if(button.dataset.action==="factory"){
+if(state.cash<8e6)return toast("You need $8M.");
+state.cash-=8e6;
+c.revenue+=25e6;
+c.employees+=800;
+}
+
+if(button.dataset.action==="marketing"){
+if(state.cash<4e6)return toast("You need $4M.");
+state.cash-=4e6;
+c.revenue+=15e6;
+c.management=Math.min(100,c.management+3);
+}
+
+if(button.dataset.action==="cut"){
+c.profit+=12e6;
+c.debt=Math.max(0,c.debt-5e6);
+}
+
+toast("Company strategy executed.");
+render();
+});
+
+$("startupPage").addEventListener("click",e=>{
+if(e.target.id==="startBusiness"){
+startBusiness();
+return;
+}
+
+const button=e.target.closest("[data-business-action]");
+if(button)manageBusiness(button.dataset.businessAction);
+});
+
+$("save").onclick=()=>saveGame(true);
 
 $("reset").onclick=()=>{
-if(confirm("Reset your entire empire?")){
-localStorage.removeItem("market_mogul_v2");
+if(confirm("Reset your entire Market Mogul empire?")){
+localStorage.removeItem("market_mogul_v3");
 location.reload();
 }
 };
 
-function toast(t){
-const e=$("toast");e.textContent=t;e.classList.add("show");
-clearTimeout(window.tt);window.tt=setTimeout(()=>e.classList.remove("show"),2400);
-}
-
-function load(){
-try{
-const s=JSON.parse(localStorage.getItem("market_mogul_v2"));
-if(!s)return;
-Object.assign(state,s);
-}catch{}
-companies.forEach(c=>{
-if(!state.prices[c.id])state.prices[c.id]=c.price;
-if(!state.history[c.id])state.history[c.id]=[state.prices[c.id]];
-});
-}
-
-load();render();
+loadGame();
+render();
 
 let last=performance.now();
-function loop(t){
-if(t-last>1000/state.speed){
-last=t;
+
+function loop(now){
+const interval=1000/state.speed;
+
+if(now-last>=interval){
+last=now;
 marketTick();
 render();
 }
+
 requestAnimationFrame(loop);
 }
+
 requestAnimationFrame(loop);
-setInterval(()=>{
-state.lastSave=Date.now();
-localStorage.setItem("market_mogul_v2",JSON.stringify(state));
-},15000);
-addEventListener("beforeunload",()=>{
-state.lastSave=Date.now();
-localStorage.setItem("market_mogul_v2",JSON.stringify(state));
-});
+
+setInterval(()=>saveGame(false),15000);
+
+addEventListener("beforeunload",()=>saveGame(false));
 </script>
 </body>
 </html>
