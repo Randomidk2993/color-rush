@@ -6,47 +6,39 @@
 <title>Idle Clicker</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07080d;--panel:#11131c;--panel2:#171a26;--border:#ffffff12;--purple:#8b5cf6;--text:#f8f8fb;--muted:#8d91a3;--green:#4ade80;--gold:#ffd166}
-body{background:radial-gradient(circle at 50% -10%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+:root{--bg:#07080d;--panel:#11131c;--panel2:#171a26;--border:#ffffff12;--purple:#8b5cf6;--text:#f8f8fb;--muted:#8d91a3;--green:#4ade80;--gold:#ffd166;--red:#fb7185}
+body{background:radial-gradient(circle at 50% -10%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
 button{font:inherit;color:inherit}
-.app{width:min(1200px,94vw);margin:auto;padding:22px 0 40px}
+.app{width:min(1250px,94vw);margin:auto;padding:20px 0 40px}
 header{height:52px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:23px;font-weight:950;letter-spacing:-1.2px}.logo span{color:#9d7aff}
-.header-right{display:flex;gap:8px}
-.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff07;cursor:pointer}
-.dashboard{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;margin-top:15px}
+.logo{font-size:23px;font-weight:950;letter-spacing:-1px}.logo span{color:#9d7aff}
+.header-right{display:flex;gap:8px}.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff07;cursor:pointer}
+.resources{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+.resource{padding:13px 15px;border:1px solid var(--border);border-radius:15px;background:#ffffff04}
+.resource span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px}.resource b{display:block;font-size:18px;margin-top:3px}
+.layout{display:grid;grid-template-columns:1fr 1.25fr;gap:15px;margin-top:15px}
 .card{background:linear-gradient(145deg,#151722e8,#0f1119e8);border:1px solid var(--border);border-radius:25px;box-shadow:0 25px 80px #0005}
-.click-area{min-height:650px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.currency{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:800}
-.amount{font-size:64px;font-weight:950;letter-spacing:-4px;margin:5px 0}
-.persec{color:var(--green);font-size:14px;font-weight:800}
-.coin{width:220px;height:220px;border-radius:50%;margin:38px 0 28px;border:8px solid #b995ff;background:radial-gradient(circle at 35% 28%,#c9b6ff,#8b5cf6 50%,#5d35c4);box-shadow:0 0 0 10px #8b5cf612,0 20px 70px #8b5cf655,inset 0 -20px 30px #43208c66;cursor:pointer;transition:transform .08s;user-select:none;position:relative}
-.coin:before{content:"$";position:absolute;inset:0;display:grid;place-items:center;font-size:95px;font-weight:950;color:#fff8;text-shadow:0 5px 10px #0004}
-.coin:active{transform:scale(.91)}
-.click-power{font-size:13px;color:var(--muted)}
-.combo{margin-top:12px;height:25px;color:var(--gold);font-weight:900}
-.shop{padding:20px;display:flex;flex-direction:column;min-height:650px}
-.shop-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.shop-head h2{font-size:20px;letter-spacing:-.7px}.shop-head span{font-size:11px;color:var(--muted)}
-.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{border:1px solid var(--border);background:#ffffff05;border-radius:10px;padding:8px 11px;font-size:11px;cursor:pointer;color:var(--muted)}.tab.active{background:#8b5cf620;color:#fff;border-color:#8b5cf655}
-.items{display:flex;flex-direction:column;gap:8px;overflow:auto;padding-right:2px}
-.item{display:grid;grid-template-columns:44px 1fr auto;gap:11px;align-items:center;padding:12px;border:1px solid var(--border);background:#ffffff04;border-radius:15px;transition:.15s}
-.item:hover{background:#ffffff08;border-color:#ffffff18}
-.item-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#8b5cf615;font-size:21px}
-.item-name{font-size:13px;font-weight:850}.item-desc{font-size:10px;color:var(--muted);margin-top:3px}.item-owned{font-size:9px;color:#9d7aff;margin-top:4px}
-.buy{border:1px solid #8b5cf650;background:#8b5cf614;border-radius:10px;padding:9px 10px;min-width:82px;cursor:pointer;font-size:11px;font-weight:850}.buy:disabled{opacity:.35;cursor:not-allowed}.cost{display:block;color:var(--gold);font-size:9px;margin-top:3px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
-.stat{padding:14px 15px;background:#ffffff04;border:1px solid var(--border);border-radius:15px}.stat b{display:block;font-size:18px}.stat span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
-.float{position:fixed;pointer-events:none;font-weight:950;font-size:20px;z-index:20;animation:float 800ms ease-out forwards;text-shadow:0 3px 10px #000}
-@keyframes float{0%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-100px) scale(1.3)}}
-.gold-event{position:fixed;z-index:15;width:72px;height:72px;border-radius:50%;display:none;place-items:center;background:radial-gradient(circle,#fff,#ffd166 40%,#d58b00);box-shadow:0 0 50px #ffd166;cursor:pointer;animation:pulse 1s infinite;user-select:none}
-@keyframes pulse{50%{transform:scale(1.12)}}
-.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(100px);padding:13px 18px;border:1px solid var(--border);border-radius:13px;background:#171923ee;backdrop-filter:blur(15px);font-size:12px;font-weight:800;transition:.3s;z-index:30}.toast.show{transform:translateX(-50%) translateY(0)}
-.modal-bg{position:fixed;inset:0;background:#000b;backdrop-filter:blur(10px);display:none;place-items:center;z-index:50}.modal-bg.show{display:grid}
-.modal{width:min(460px,92vw);padding:30px;text-align:center}.modal h2{font-size:30px;margin-bottom:8px}.modal p{font-size:13px;color:var(--muted);line-height:1.6}.modal button{margin-top:20px}
-.prestige-value{font-size:45px;font-weight:950;color:#b69aff;margin:15px}
-@media(max-width:850px){.dashboard{grid-template-columns:1fr}.click-area,.shop{min-height:550px}.stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.coin{width:175px;height:175px}.coin:before{font-size:75px}.amount{font-size:48px}.stats{grid-template-columns:1fr 1fr}.item{grid-template-columns:38px 1fr auto}.item-icon{width:38px;height:38px}}
+.clicker{min-height:610px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.currency{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:800}.amount{font-size:57px;font-weight:950;letter-spacing:-4px;margin:5px 0}.cps{color:var(--green);font-size:13px;font-weight:800}
+.coin{width:205px;height:205px;border-radius:50%;margin:30px 0 20px;border:8px solid #b995ff;background:radial-gradient(circle at 35% 25%,#d4c4ff,#8b5cf6 52%,#5931bd);box-shadow:0 0 0 10px #8b5cf612,0 20px 70px #8b5cf655,inset 0 -20px 30px #43208c66;cursor:pointer;position:relative;user-select:none}
+.coin:before{content:"$";position:absolute;inset:0;display:grid;place-items:center;font-size:88px;font-weight:950;color:#fff8;text-shadow:0 5px 10px #0004}.coin.cooldown{filter:brightness(.65);cursor:not-allowed}
+.click-info{color:var(--muted);font-size:11px}.combo{height:25px;margin-top:9px;color:var(--gold);font-size:13px;font-weight:900}
+.progress{position:absolute;bottom:20px;width:75%;height:4px;background:#ffffff0a;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:var(--purple);transition:width .05s}
+.shop{padding:20px;min-height:610px}.shop-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.shop-header h2{font-size:20px}.shop-header span{font-size:10px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{padding:8px 12px;border:1px solid var(--border);background:#ffffff05;border-radius:10px;color:var(--muted);font-size:11px;cursor:pointer}.tab.active{background:#8b5cf620;border-color:#8b5cf655;color:#fff}
+.items{display:flex;flex-direction:column;gap:8px;max-height:530px;overflow:auto}
+.item{display:grid;grid-template-columns:44px 1fr auto;gap:11px;align-items:center;padding:11px;border:1px solid var(--border);border-radius:15px;background:#ffffff04}
+.item-icon{width:44px;height:44px;border-radius:12px;background:#8b5cf615;display:grid;place-items:center;font-size:21px}
+.item-name{font-size:13px;font-weight:850}.item-desc{font-size:10px;color:var(--muted);margin-top:3px}.owned{font-size:9px;color:#a78bfa;margin-top:4px}
+.buy{min-width:82px;padding:9px 8px;border:1px solid #8b5cf650;border-radius:10px;background:#8b5cf614;cursor:pointer;font-size:10px;font-weight:850}.buy:hover:not(:disabled){background:#8b5cf628}.buy:disabled{opacity:.3;cursor:not-allowed}.cost{display:block;color:var(--gold);font-size:9px;margin-top:3px}
+.research{display:none}.research.active{display:block}.tree{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-height:530px;overflow:auto}
+.node{min-height:125px;padding:13px;border:1px solid var(--border);border-radius:15px;background:#ffffff04;position:relative}.node.unlocked{border-color:#8b5cf650;background:#8b5cf609}.node.locked{opacity:.45}.node.owned{border-color:#4ade8055;background:#4ade8009}.node-icon{font-size:22px}.node-name{font-size:12px;font-weight:850;margin-top:6px}.node-desc{font-size:9px;color:var(--muted);line-height:1.4;margin:3px 0 8px}.research-buy{width:100%;padding:7px;border:1px solid #8b5cf650;border-radius:8px;background:#8b5cf614;cursor:pointer;font-size:9px;font-weight:850}.research-buy:disabled{opacity:.3;cursor:not-allowed}
+.float{position:fixed;pointer-events:none;font-weight:950;font-size:19px;z-index:20;animation:float .8s ease-out forwards;text-shadow:0 3px 10px #000}@keyframes float{to{opacity:0;transform:translate(-50%,-100px) scale(1.3)}}
+.gold{position:fixed;z-index:15;width:70px;height:70px;border-radius:50%;display:none;place-items:center;background:radial-gradient(circle,#fff,#ffd166 40%,#d58b00);box-shadow:0 0 50px #ffd166;cursor:pointer;animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(1.12)}}
+.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,100px);padding:13px 18px;border:1px solid var(--border);border-radius:13px;background:#171923ee;backdrop-filter:blur(15px);font-size:12px;font-weight:800;transition:.3s;z-index:40}.toast.show{transform:translate(-50%,0)}
+.modal-bg{position:fixed;inset:0;display:none;place-items:center;background:#000b;backdrop-filter:blur(10px);z-index:50}.modal-bg.show{display:grid}.modal{width:min(470px,92vw);padding:30px;text-align:center}.modal h2{font-size:30px}.modal p{font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px}.modal-value{font-size:46px;font-weight:950;color:#b69aff;margin:15px}.modal-btn{margin-top:20px;padding:11px 20px;border:1px solid #8b5cf655;background:#8b5cf620;border-radius:11px;cursor:pointer;font-weight:850}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.clicker,.shop{min-height:560px}.resources{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.tree{grid-template-columns:repeat(2,1fr)}.amount{font-size:45px}.coin{width:175px;height:175px}.coin:before{font-size:75px}}
 </style>
 </head>
 <body>
@@ -56,41 +48,47 @@ header{height:52px;display:flex;align-items:center;justify-content:space-between
 <div class="header-right"><button class="icon" id="sound">🔊</button><button class="icon" id="reset">↻</button></div>
 </header>
 
-<main class="dashboard">
-<section class="card click-area">
-<div class="currency">Your Coins</div>
-<div class="amount" id="coins">0</div>
-<div class="persec" id="cps">+0 / second</div>
-<button class="coin" id="coin" aria-label="Click"></button>
-<div class="click-power" id="clickPower">+1 per click</div>
+<section class="resources">
+<div class="resource"><span>Coins</span><b id="coins">0</b></div>
+<div class="resource"><span>Per Second</span><b id="cps">0</b></div>
+<div class="resource"><span>Click Power</span><b id="clickPower">1</b></div>
+<div class="resource"><span>Prestige</span><b id="prestige">0</b></div>
+</section>
+
+<main class="layout">
+<section class="card clicker">
+<div class="currency">Coins</div>
+<div class="amount" id="mainCoins">0</div>
+<div class="cps" id="mainCps">+0 / second</div>
+<button class="coin" id="coin"></button>
+<div class="click-info" id="clickInfo">+1 per click • 250ms cooldown</div>
 <div class="combo" id="combo"></div>
+<div class="progress"><i id="clickProgress"></i></div>
 </section>
 
 <section class="card shop">
-<div class="shop-head"><h2>Upgrades</h2><span id="shopHint">Buy generators & upgrades</span></div>
-<div class="tabs"><button class="tab active" data-tab="generators">Generators</button><button class="tab" data-tab="upgrades">Upgrades</button></div>
+<div class="shop-header"><h2 id="shopTitle">Generators</h2><span id="shopSubtitle">Build your empire</span></div>
+<div class="tabs">
+<button class="tab active" data-tab="generators">Buildings</button>
+<button class="tab" data-tab="upgrades">Upgrades</button>
+<button class="tab" data-tab="research">Research</button>
+</div>
 <div class="items" id="items"></div>
+<div class="research" id="research"><div class="tree" id="tree"></div></div>
 </section>
 </main>
-
-<section class="stats">
-<div class="stat"><b id="total">0</b><span>Total Earned</span></div>
-<div class="stat"><b id="clicks">0</b><span>Clicks</span></div>
-<div class="stat"><b id="crit">0</b><span>Critical Hits</span></div>
-<div class="stat"><b id="prestige">0</b><span>Prestige</span></div>
-</section>
 </div>
 
-<div class="gold-event" id="gold">★</div>
+<div class="gold" id="gold">★</div>
 <div class="toast" id="toast"></div>
 
 <div class="modal-bg" id="prestigeModal">
 <div class="card modal">
-<h2>Ascend</h2>
-<p>Reset your coins and upgrades to gain permanent Prestige Points. Each point permanently increases all production.</p>
-<div class="prestige-value" id="prestigeGain">+0</div>
-<p>Requires 100,000 lifetime coins.</p>
-<button class="buy" id="prestigeBtn">Prestige</button>
+<h2>Ascension</h2>
+<p>Reset your empire and convert lifetime production into permanent Prestige Points.</p>
+<div class="modal-value" id="prestigeGain">+0</div>
+<p>Each Prestige Point gives +15% global production.</p>
+<button class="modal-btn" id="prestigeBtn">Ascend</button>
 </div>
 </div>
 
@@ -98,146 +96,363 @@ header{height:52px;display:flex;align-items:center;justify-content:space-between
 "use strict";
 
 const $=id=>document.getElementById(id);
-const fmt=n=>n>=1e12?(n/1e12).toFixed(2)+"T":n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(2)+"K":Math.floor(n).toLocaleString();
-const saveKey="idle_clicker_v1";
+const fmt=n=>n>=1e15?(n/1e15).toFixed(2)+"Q":n>=1e12?(n/1e12).toFixed(2)+"T":n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(2)+"K":Math.floor(n).toLocaleString();
+const KEY="idle_clicker_v2";
 
-const generators=[
-{id:"cursor",icon:"👆",name:"Auto Clicker",desc:"Clicks for you automatically.",base:15,prod:1,owned:0},
-{id:"miner",icon:"⛏️",name:"Coin Miner",desc:"Digs up coins every second.",base:100,prod:8,owned:0},
-{id:"factory",icon:"🏭",name:"Coin Factory",desc:"Mass produces coins.",base:650,prod:45,owned:0},
-{id:"bank",icon:"🏦",name:"Coin Bank",desc:"Generates passive wealth.",base:4000,prod:250,owned:0},
-{id:"reactor",icon:"⚛️",name:"Quantum Reactor",desc:"Turns energy into ridiculous money.",base:30000,prod:1500,owned:0},
-{id:"portal",icon:"🌀",name:"Money Portal",desc:"Pulls coins from another dimension.",base:250000,prod:10000,owned:0}
+const buildings=[
+{id:"cursor",icon:"👆",name:"Auto Clicker",desc:"Clicks once every second.",base:15,prod:1},
+{id:"miner",icon:"⛏️",name:"Coin Miner",desc:"Extracts coins continuously.",base:100,prod:8},
+{id:"farm",icon:"🌾",name:"Coin Farm",desc:"Produces a large harvest every 10 seconds.",base:800,prod:75,timed:10},
+{id:"factory",icon:"🏭",name:"Coin Factory",desc:"Industrial coin production.",base:6500,prod:450},
+{id:"bank",icon:"🏦",name:"Royal Bank",desc:"Turns investments into wealth.",base:50000,prod:3500},
+{id:"lab",icon:"🧪",name:"Quantum Lab",desc:"Harnesses experimental energy.",base:500000,prod:30000},
+{id:"portal",icon:"🌀",name:"Money Portal",desc:"Imports coins from another dimension.",base:5000000,prod:250000}
 ];
 
 const upgrades=[
-{id:"strong",icon:"💪",name:"Stronger Clicks",desc:"+2 coins per click.",base:75,level:0,max:20},
-{id:"critical",icon:"💥",name:"Critical Chance",desc:"+5% critical click chance.",base:250,level:0,max:10},
-{id:"combo",icon:"🔥",name:"Combo Master",desc:"Combo multiplier grows faster.",base:1000,level:0,max:10},
-{id:"efficiency",icon:"⚙️",name:"Efficiency",desc:"+10% generator production.",base:1500,level:0,max:15},
-{id:"fortune",icon:"🍀",name:"Golden Fortune",desc:"Golden coins become more valuable.",base:5000,level:0,max:10},
-{id:"overclock",icon:"⚡",name:"Overclock",desc:"+25% production.",base:25000,level:0,max:10}
+{id:"click",icon:"💪",name:"Stronger Clicks",desc:"+2 base coins per click.",base:75,max:25},
+{id:"speed",icon:"⚡",name:"Rapid Clicking",desc:"Click cooldown -20ms.",base:250,max:20},
+{id:"crit",icon:"💥",name:"Critical Hits",desc:"+5% critical click chance.",base:500,max:10},
+{id:"combo",icon:"🔥",name:"Combo Master",desc:"Combo multiplier improves.",base:1500,max:10},
+{id:"production",icon:"⚙️",name:"Better Machines",desc:"+10% building production.",base:2500,max:20},
+{id:"gold",icon:"🍀",name:"Golden Fortune",desc:"+30% Golden Coin rewards.",base:7500,max:10},
+{id:"mega",icon:"🚀",name:"Mega Production",desc:"+25% all production.",base:50000,max:10}
+];
+
+const research=[
+{id:"start",icon:"🧠",name:"Basic Economics",desc:"+10% coins from clicking.",cost:1000,req:[],effect:"click10"},
+{id:"automation",icon:"🤖",name:"Automation",desc:"Buildings produce +20%.",cost:5000,req:["start"],effect:"prod20"},
+{id:"agriculture",icon:"🌾",name:"Agriculture",desc:"Coin Farms harvest 2×.",cost:12000,req:["automation"],effect:"farm2"},
+{id:"commerce",icon:"💰",name:"Commerce",desc:"All building costs are 5% cheaper.",cost:25000,req:["automation"],effect:"cheap"},
+{id:"precision",icon:"🎯",name:"Precision",desc:"Critical hits deal 2× more.",cost:50000,req:["start"],effect:"crit2"},
+{id:"industry",icon:"🏭",name:"Industrial Revolution",desc:"Factories produce 3×.",cost:100000,req:["agriculture","commerce"],effect:"factory3"},
+{id:"banking",icon:"🏦",name:"Advanced Banking",desc:"Banks produce 3×.",cost:250000,req:["commerce"],effect:"bank3"},
+{id:"quantum",icon:"⚛️",name:"Quantum Physics",desc:"Quantum Labs produce 5×.",cost:1000000,req:["industry"],effect:"lab5"},
+{id:"ascension",icon:"👑",name:"Ascension Theory",desc:"Prestige bonus is increased by 50%.",cost:5000000,req:["quantum","banking"],effect:"prestige50"}
 ];
 
 let state={
 coins:0,total:0,clicks:0,crit:0,prestige:0,lastSave:Date.now(),
-combo:0,comboTime:0,tab:"generators",sound:true
+combo:0,comboTime:0,tab:"generators",sound:true,research:[]
 };
 
+let cooldownUntil=0,lastTime=performance.now(),goldTimer=0;
+
 function load(){
-try{const s=JSON.parse(localStorage.getItem(saveKey));if(s)state={...state,...s}}catch{}
-generators.forEach(g=>{g.owned=state["g_"+g.id]||0});
-upgrades.forEach(u=>{u.level=state["u_"+u.id]||0});
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s}}catch{}
+buildings.forEach(b=>b.owned=state["b_"+b.id]||0);
+upgrades.forEach(u=>u.level=state["u_"+u.id]||0);
 const offline=Math.min((Date.now()-state.lastSave)/1000,28800);
-if(offline>10){const earned=cps()*offline;state.coins+=earned;state.total+=earned;toast(`Welcome back! You earned ${fmt(earned)} coins while away.`)}
+if(offline>10){const earned=production()*offline;state.coins+=earned;state.total+=earned;toast(`Welcome back! +${fmt(earned)} offline coins.`)}
 }
-function persist(){
-generators.forEach(g=>state["g_"+g.id]=g.owned);
+
+function save(){
+buildings.forEach(b=>state["b_"+b.id]=b.owned);
 upgrades.forEach(u=>state["u_"+u.id]=u.level);
 state.lastSave=Date.now();
-localStorage.setItem(saveKey,JSON.stringify(state));
+localStorage.setItem(KEY,JSON.stringify(state));
 }
-function cps(){
-let value=generators.reduce((n,g)=>n+g.owned*g.prod,0);
-value*=1+upgrades.find(x=>x.id==="efficiency").level*.1;
-value*=1+upgrades.find(x=>x.id==="overclock").level*.25;
+
+function hasResearch(id){return state.research.includes(id)}
+function level(id){return upgrades.find(u=>u.id===id)?.level||0}
+
+function production(){
+let value=buildings.reduce((n,b)=>n+b.owned*b.prod,0);
+value*=1+level("production")*.1;
+value*=1+level("mega")*.25;
 value*=1+state.prestige*.15;
+if(hasResearch("automation"))value*=1.2;
+if(hasResearch("ascension"))value*=1+state.prestige*.075;
+if(hasResearch("agriculture"))value+=buildings.find(b=>b.id==="farm").owned*buildings.find(b=>b.id==="farm").prod;
+if(hasResearch("industry"))value+=buildings.find(b=>b.id==="factory").owned*buildings.find(b=>b.id==="factory").prod*2;
+if(hasResearch("banking"))value+=buildings.find(b=>b.id==="bank").owned*buildings.find(b=>b.id==="bank").prod*2;
+if(hasResearch("quantum"))value+=buildings.find(b=>b.id==="lab").owned*buildings.find(b=>b.id==="lab").prod*4;
 return value;
 }
-function clickValue(){
-return 1+upgrades.find(x=>x.id==="strong").level*2;
-}
-function critChance(){return .05+upgrades.find(x=>x.id==="critical").level*.05}
-function comboMult(){return 1+Math.min(4,Math.floor(state.combo/(5-upgrades.find(x=>x.id==="combo").level*.25)))*.25}
-function genCost(g){return Math.floor(g.base*Math.pow(1.15,g.owned))}
-function upgradeCost(u){return Math.floor(u.base*Math.pow(2,u.level))}
-function earn(amount){state.coins+=amount;state.total+=amount}
-function floating(text,x,y){const el=document.createElement("div");el.className="float";el.textContent=text;el.style.left=x+"px";el.style.top=y+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),800)}
-function toast(text){const el=$("toast");el.textContent=text;el.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove("show"),2400)}
 
-function render(){
-$("coins").textContent=fmt(state.coins);
-$("cps").textContent=`+${fmt(cps())} / second`;
-$("clickPower").textContent=`+${fmt(clickValue()*comboMult())} per click`;
-$("total").textContent=fmt(state.total);
-$("clicks").textContent=fmt(state.clicks);
-$("crit").textContent=fmt(state.crit);
-$("prestige").textContent=fmt(state.prestige);
-$("combo").textContent=state.combo>1?`🔥 ${state.combo} COMBO ×${comboMult().toFixed(2)}`:"";
-renderShop();
+function clickPower(){
+let value=1+level("click")*2;
+value*=1+state.prestige*.15;
+if(hasResearch("start"))value*=1.1;
+return value;
 }
 
-function renderShop(){
-const box=$("items"),data=state.tab==="generators"?generators:upgrades;
-box.innerHTML=data.map(x=>{
-const cost=state.tab==="generators"?genCost(x):upgradeCost(x);
-const owned=state.tab==="generators"?x.owned:x.level;
-const max=state.tab==="upgrades"&&owned>=x.max;
-return `<div class="item"><div class="item-icon">${x.icon}</div><div><div class="item-name">${x.name}</div><div class="item-desc">${x.desc}</div><div class="item-owned">${state.tab==="generators"?"OWNED: "+owned:"LEVEL: "+owned+"/"+x.max}</div></div><button class="buy" data-id="${x.id}" ${state.coins<cost||max?"disabled":""}>${max?"MAX":"BUY"}<span class="cost">${max?"":fmt(cost)+" coins"}</span></button></div>`
+function cooldown(){
+return Math.max(70,250-level("speed")*9);
+}
+
+function critChance(){return .05+level("crit")*.05}
+
+function comboMultiplier(){
+return 1+Math.min(5,Math.floor(state.combo/5)*.25)*(1+level("combo")*.12);
+}
+
+function buildingCost(b){
+let discount=hasResearch("commerce")?.95:1;
+return Math.floor(b.base*Math.pow(1.15,b.owned)*discount);
+}
+
+function upgradeCost(u){return Math.floor(u.base*Math.pow(1.75,u.level))}
+function researchUnlocked(r){return r.req.every(hasResearch)}
+function earn(n){state.coins+=n;state.total+=n}
+
+function float(text,x,y){
+const e=document.createElement("div");
+e.className="float";
+e.textContent=text;
+e.style.left=x+"px";
+e.style.top=y+"px";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),800);
+}
+
+let toastTimer;
+function toast(text){
+const e=$("toast");
+e.textContent=text;
+e.classList.add("show");
+clearTimeout(toastTimer);
+toastTimer=setTimeout(()=>e.classList.remove("show"),2300);
+}
+
+function renderResources(){
+const c=fmt(state.coins),p=fmt(production()),cp=fmt(clickPower());
+$("coins").textContent=c;
+$("mainCoins").textContent=c;
+$("cps").textContent=p;
+$("mainCps").textContent="+"+p+" / second";
+$("clickPower").textContent=cp;
+$("prestige").textContent=state.prestige;
+$("clickInfo").textContent=`+${cp} per click • ${cooldown()}ms cooldown`;
+$("combo").textContent=state.combo>1?`🔥 ${state.combo} COMBO ×${comboMultiplier().toFixed(2)}`:"";
+}
+
+function renderBuildings(){
+$("items").innerHTML=buildings.map(b=>{
+const cost=buildingCost(b);
+return `<div class="item"><div class="item-icon">${b.icon}</div><div><div class="item-name">${b.name}</div><div class="item-desc">${b.desc}</div><div class="owned">OWNED: ${b.owned}${b.timed?" • EVERY "+b.timed+"s":""}</div></div><button class="buy" data-type="building" data-id="${b.id}" ${state.coins<cost?"disabled":""}>BUY<span class="cost">${fmt(cost)}</span></button></div>`;
 }).join("");
 }
 
-$("items").addEventListener("click",e=>{
-const btn=e.target.closest(".buy");if(!btn)return;
-const id=btn.dataset.id;
-if(state.tab==="generators"){
-const g=generators.find(x=>x.id===id),cost=genCost(g);if(state.coins<cost)return;
-state.coins-=cost;g.owned++;toast(`${g.icon} ${g.name} purchased!`);
-}else{
-const u=upgrades.find(x=>x.id===id),cost=upgradeCost(u);if(state.coins<cost||u.level>=u.max)return;
-state.coins-=cost;u.level++;toast(`${u.icon} ${u.name} upgraded!`);
+function renderUpgrades(){
+$("items").innerHTML=upgrades.map(u=>{
+const cost=upgradeCost(u),max=u.level>=u.max;
+return `<div class="item"><div class="item-icon">${u.icon}</div><div><div class="item-name">${u.name}</div><div class="item-desc">${u.desc}</div><div class="owned">LEVEL ${u.level}/${u.max}</div></div><button class="buy" data-type="upgrade" data-id="${u.id}" ${state.coins<cost||max?"disabled":""}>${max?"MAX":"UPGRADE"}<span class="cost">${max?"":fmt(cost)}</span></button></div>`;
+}).join("");
 }
-render();
+
+function renderResearch(){
+$("tree").innerHTML=research.map(r=>{
+const owned=hasResearch(r.id),unlocked=researchUnlocked(r);
+return `<div class="node ${owned?"owned":unlocked?"unlocked":"locked"}"><div class="node-icon">${r.icon}</div><div class="node-name">${r.name}</div><div class="node-desc">${r.desc}</div><button class="research-buy" data-research="${r.id}" ${owned||!unlocked||state.coins<r.cost?"disabled":""}>${owned?"RESEARCHED":!unlocked?"LOCKED":"RESEARCH • "+fmt(r.cost)}</button></div>`;
+}).join("");
+}
+
+function renderShop(){
+const research=state.tab==="research";
+$("items").style.display=research?"none":"flex";
+$("research").classList.toggle("active",research);
+$("shopTitle").textContent=research?"Research Tree":state.tab==="generators"?"Buildings":"Upgrades";
+$("shopSubtitle").textContent=research?"Unlock permanent discoveries":"Build your empire";
+if(state.tab==="generators")renderBuildings();
+if(state.tab==="upgrades")renderUpgrades();
+if(research)renderResearch();
+}
+
+function render(){
+renderResources();
+renderShop();
+}
+
+document.querySelector(".tabs").addEventListener("click",e=>{
+const tab=e.target.closest(".tab");
+if(!tab)return;
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+tab.classList.add("active");
+state.tab=tab.dataset.tab;
+renderShop();
 });
 
-document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
-document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-t.classList.add("active");state.tab=t.dataset.tab;renderShop();
+$("items").addEventListener("click",e=>{
+const button=e.target.closest(".buy");
+if(!button)return;
+const id=button.dataset.id;
+
+if(button.dataset.type==="building"){
+const b=buildings.find(x=>x.id===id);
+const cost=buildingCost(b);
+if(state.coins<cost)return;
+state.coins-=cost;
+b.owned++;
+toast(`${b.icon} ${b.name} purchased`);
+}else{
+const u=upgrades.find(x=>x.id===id);
+const cost=upgradeCost(u);
+if(state.coins<cost||u.level>=u.max)return;
+state.coins-=cost;
+u.level++;
+toast(`${u.icon} ${u.name} upgraded`);
+}
+renderResources();
+renderShop();
+});
+
+$("research").addEventListener("click",e=>{
+const button=e.target.closest(".research-buy");
+if(!button)return;
+const r=research.find(x=>x.id===button.dataset.research);
+if(!r||hasResearch(r.id)||!researchUnlocked(r)||state.coins<r.cost)return;
+state.coins-=r.cost;
+state.research.push(r.id);
+toast(`${r.icon} ${r.name} researched!`);
+render();
 });
 
 $("coin").addEventListener("pointerdown",e=>{
-let amount=clickValue()*comboMult(),critical=Math.random()<critChance();
-if(critical){amount*=5;state.crit++;floating("CRITICAL! +"+fmt(amount),e.clientX,e.clientY)}
-else floating("+"+fmt(amount),e.clientX,e.clientY);
-earn(amount);state.clicks++;state.combo++;state.comboTime=1.5;
-$("coin").animate([{transform:"scale(.91)"},{transform:"scale(1)"}],{duration:100,easing:"ease-out"});
-if(state.sound){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=critical?700:400;g.gain.value=.035;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.06)}catch{}}
-render();
+const now=performance.now();
+if(now<cooldownUntil)return;
+cooldownUntil=now+cooldown();
+const coin=$("coin");
+coin.classList.add("cooldown");
+setTimeout(()=>coin.classList.remove("cooldown"),cooldown());
+
+let amount=clickPower()*comboMultiplier();
+let critical=Math.random()<critChance();
+
+if(critical){
+amount*=5;
+if(hasResearch("precision"))amount*=2;
+state.crit++;
+float("💥 CRITICAL +"+fmt(amount),e.clientX,e.clientY);
+}else{
+float("+"+fmt(amount),e.clientX,e.clientY);
+}
+
+earn(amount);
+state.clicks++;
+state.combo++;
+state.comboTime=2;
+
+coin.animate(
+[{transform:"scale(.9)"},{transform:"scale(1)"}],
+{duration:100,easing:"ease-out"}
+);
+
+if(state.sound){
+try{
+const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();
+o.frequency.value=critical?760:420;
+g.gain.value=.035;
+o.connect(g);g.connect(a.destination);
+o.start();o.stop(a.currentTime+.06);
+}catch{}
+}
+
+renderResources();
 });
 
-function spawnGolden(){
-const el=$("gold"),x=8+Math.random()*84,y=18+Math.random()*65;
-el.style.left=x+"vw";el.style.top=y+"vh";el.style.display="grid";
-clearTimeout(window.goldTimer);window.goldTimer=setTimeout(()=>el.style.display="none",8000);
-}
 $("gold").onclick=e=>{
-const fortune=upgrades.find(x=>x.id==="fortune").level;
-const reward=Math.max(100,state.coins*.08+1000)*(1+fortune*.3);
-earn(reward);$("gold").style.display="none";floating("⭐ +"+fmt(reward),e.clientX,e.clientY);toast("Golden Coin collected!");render();
+const reward=Math.max(1000,state.coins*.1)*(1+level("gold")*.3);
+earn(reward);
+$("gold").style.display="none";
+float("⭐ +"+fmt(reward),e.clientX,e.clientY);
+toast("Golden Coin collected!");
+renderResources();
 };
 
-function tick(dt){
-const income=cps()*dt;earn(income);
-if(state.comboTime>0){state.comboTime-=dt;if(state.comboTime<=0)state.combo=0}
-if(Math.random()<dt/35)spawnGolden();
+function spawnGolden(){
+const e=$("gold");
+e.style.left=8+Math.random()*84+"vw";
+e.style.top=15+Math.random()*65+"vh";
+e.style.display="grid";
+clearTimeout(window.goldTimeout);
+window.goldTimeout=setTimeout(()=>e.style.display="none",7000);
 }
-function gameLoop(){
-const now=performance.now();const dt=Math.min((now-(window.last||now))/1000,.25);window.last=now;
-tick(dt);render();requestAnimationFrame(gameLoop);
+
+function tick(dt){
+const normal=production()*dt;
+earn(normal);
+
+buildings.filter(b=>b.timed&&b.owned).forEach(b=>{
+b.timer=(b.timer||0)+dt;
+if(b.timer>=b.timed){
+b.timer=0;
+let reward=b.owned*b.prod*b.timed;
+if(b.id==="farm"&&hasResearch("agriculture"))reward*=2;
+earn(reward);
+toast(`${b.icon} ${b.name} harvested +${fmt(reward)}`);
+}
+});
+
+if(state.comboTime>0){
+state.comboTime-=dt;
+if(state.comboTime<=0)state.combo=0;
+}
+
+goldTimer+=dt;
+if(goldTimer>35){
+goldTimer=0;
+spawnGolden();
+}
+}
+
+function loop(now){
+const dt=Math.min((now-lastTime)/1000,.25);
+lastTime=now;
+tick(dt);
+renderResources();
+
+const remaining=Math.max(0,cooldownUntil-performance.now());
+$("clickProgress").style.width=(1-remaining/cooldown())*100+"%";
+
+requestAnimationFrame(loop);
 }
 
 $("reset").onclick=()=>{
-if(confirm("Reset all Idle Clicker progress? This cannot be undone.")){localStorage.removeItem(saveKey);location.reload()}
+if(confirm("Reset all Idle Clicker progress?")){
+localStorage.removeItem(KEY);
+location.reload();
+}
 };
 
-$("sound").onclick=()=>{state.sound=!state.sound;$("sound").textContent=state.sound?"🔊":"🔇"};
+$("sound").onclick=()=>{
+state.sound=!state.sound;
+$("sound").textContent=state.sound?"🔊":"🔇";
+};
 
-setInterval(persist,5000);
-addEventListener("beforeunload",persist);
+function prestigeGain(){
+return Math.floor(Math.sqrt(state.total/100000));
+}
+
+function openPrestige(){
+const gain=prestigeGain();
+if(gain<=0){toast("Earn at least 100,000 lifetime coins first.");return}
+$("prestigeGain").textContent="+"+gain;
+$("prestigeModal").classList.add("show");
+}
+
+$("prestige").parentElement.onclick=openPrestige;
+
+$("prestigeBtn").onclick=()=>{
+const gain=prestigeGain();
+if(gain<=0)return;
+state.prestige+=gain;
+state.coins=0;
+state.combo=0;
+state.research=[];
+buildings.forEach(b=>b.owned=0);
+upgrades.forEach(u=>u.level=0);
+$("prestigeModal").classList.remove("show");
+toast(`👑 Ascended! +${gain} Prestige`);
+render();
+};
+
+addEventListener("beforeunload",save);
+setInterval(save,5000);
 
 load();
 render();
-gameLoop();
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>
