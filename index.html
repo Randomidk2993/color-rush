@@ -3,456 +3,408 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Idle Clicker</title>
+<title>Market Mogul</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07080d;--panel:#11131c;--panel2:#171a26;--border:#ffffff12;--purple:#8b5cf6;--text:#f8f8fb;--muted:#8d91a3;--green:#4ade80;--gold:#ffd166;--red:#fb7185}
+:root{--bg:#07080d;--panel:#11131c;--panel2:#171a25;--border:#ffffff12;--purple:#8b5cf6;--green:#4ade80;--red:#fb7185;--gold:#ffd166;--muted:#858a9d;--text:#f7f7fa}
 body{background:radial-gradient(circle at 50% -10%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
 button{font:inherit;color:inherit}
-.app{width:min(1250px,94vw);margin:auto;padding:20px 0 40px}
+.app{width:min(1350px,95vw);margin:auto;padding:20px 0 40px}
 header{height:52px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:23px;font-weight:950;letter-spacing:-1px}.logo span{color:#9d7aff}
-.header-right{display:flex;gap:8px}.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff07;cursor:pointer}
-.resources{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
-.resource{padding:13px 15px;border:1px solid var(--border);border-radius:15px;background:#ffffff04}
-.resource span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px}.resource b{display:block;font-size:18px;margin-top:3px}
-.layout{display:grid;grid-template-columns:1fr 1.25fr;gap:15px;margin-top:15px}
-.card{background:linear-gradient(145deg,#151722e8,#0f1119e8);border:1px solid var(--border);border-radius:25px;box-shadow:0 25px 80px #0005}
-.clicker{min-height:610px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.currency{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:800}.amount{font-size:57px;font-weight:950;letter-spacing:-4px;margin:5px 0}.cps{color:var(--green);font-size:13px;font-weight:800}
-.coin{width:205px;height:205px;border-radius:50%;margin:30px 0 20px;border:8px solid #b995ff;background:radial-gradient(circle at 35% 25%,#d4c4ff,#8b5cf6 52%,#5931bd);box-shadow:0 0 0 10px #8b5cf612,0 20px 70px #8b5cf655,inset 0 -20px 30px #43208c66;cursor:pointer;position:relative;user-select:none}
-.coin:before{content:"$";position:absolute;inset:0;display:grid;place-items:center;font-size:88px;font-weight:950;color:#fff8;text-shadow:0 5px 10px #0004}.coin.cooldown{filter:brightness(.65);cursor:not-allowed}
-.click-info{color:var(--muted);font-size:11px}.combo{height:25px;margin-top:9px;color:var(--gold);font-size:13px;font-weight:900}
-.progress{position:absolute;bottom:20px;width:75%;height:4px;background:#ffffff0a;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:var(--purple);transition:width .05s}
-.shop{padding:20px;min-height:610px}.shop-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.shop-header h2{font-size:20px}.shop-header span{font-size:10px;color:var(--muted)}
-.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{padding:8px 12px;border:1px solid var(--border);background:#ffffff05;border-radius:10px;color:var(--muted);font-size:11px;cursor:pointer}.tab.active{background:#8b5cf620;border-color:#8b5cf655;color:#fff}
-.items{display:flex;flex-direction:column;gap:8px;max-height:530px;overflow:auto}
-.item{display:grid;grid-template-columns:44px 1fr auto;gap:11px;align-items:center;padding:11px;border:1px solid var(--border);border-radius:15px;background:#ffffff04}
-.item-icon{width:44px;height:44px;border-radius:12px;background:#8b5cf615;display:grid;place-items:center;font-size:21px}
-.item-name{font-size:13px;font-weight:850}.item-desc{font-size:10px;color:var(--muted);margin-top:3px}.owned{font-size:9px;color:#a78bfa;margin-top:4px}
-.buy{min-width:82px;padding:9px 8px;border:1px solid #8b5cf650;border-radius:10px;background:#8b5cf614;cursor:pointer;font-size:10px;font-weight:850}.buy:hover:not(:disabled){background:#8b5cf628}.buy:disabled{opacity:.3;cursor:not-allowed}.cost{display:block;color:var(--gold);font-size:9px;margin-top:3px}
-.research{display:none}.research.active{display:block}.tree{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-height:530px;overflow:auto}
-.node{min-height:125px;padding:13px;border:1px solid var(--border);border-radius:15px;background:#ffffff04;position:relative}.node.unlocked{border-color:#8b5cf650;background:#8b5cf609}.node.locked{opacity:.45}.node.owned{border-color:#4ade8055;background:#4ade8009}.node-icon{font-size:22px}.node-name{font-size:12px;font-weight:850;margin-top:6px}.node-desc{font-size:9px;color:var(--muted);line-height:1.4;margin:3px 0 8px}.research-buy{width:100%;padding:7px;border:1px solid #8b5cf650;border-radius:8px;background:#8b5cf614;cursor:pointer;font-size:9px;font-weight:850}.research-buy:disabled{opacity:.3;cursor:not-allowed}
-.float{position:fixed;pointer-events:none;font-weight:950;font-size:19px;z-index:20;animation:float .8s ease-out forwards;text-shadow:0 3px 10px #000}@keyframes float{to{opacity:0;transform:translate(-50%,-100px) scale(1.3)}}
-.gold{position:fixed;z-index:15;width:70px;height:70px;border-radius:50%;display:none;place-items:center;background:radial-gradient(circle,#fff,#ffd166 40%,#d58b00);box-shadow:0 0 50px #ffd166;cursor:pointer;animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(1.12)}}
-.toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,100px);padding:13px 18px;border:1px solid var(--border);border-radius:13px;background:#171923ee;backdrop-filter:blur(15px);font-size:12px;font-weight:800;transition:.3s;z-index:40}.toast.show{transform:translate(-50%,0)}
-.modal-bg{position:fixed;inset:0;display:none;place-items:center;background:#000b;backdrop-filter:blur(10px);z-index:50}.modal-bg.show{display:grid}.modal{width:min(470px,92vw);padding:30px;text-align:center}.modal h2{font-size:30px}.modal p{font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px}.modal-value{font-size:46px;font-weight:950;color:#b69aff;margin:15px}.modal-btn{margin-top:20px;padding:11px 20px;border:1px solid #8b5cf655;background:#8b5cf620;border-radius:11px;cursor:pointer;font-weight:850}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.clicker,.shop{min-height:560px}.resources{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:550px){.tree{grid-template-columns:repeat(2,1fr)}.amount{font-size:45px}.coin{width:175px;height:175px}.coin:before{font-size:75px}}
+.header-right{display:flex;gap:8px;align-items:center}.day{font-size:11px;color:var(--muted);margin-right:8px}.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff07;cursor:pointer}
+.top-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+.stat{padding:14px 16px;border:1px solid var(--border);border-radius:15px;background:#ffffff04}.stat span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.stat b{display:block;font-size:20px;margin-top:3px}
+.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
+.layout{display:grid;grid-template-columns:1.15fr 1.65fr 1fr;gap:12px;margin-top:12px}
+.card{background:linear-gradient(145deg,#151722e8,#0f1119e8);border:1px solid var(--border);border-radius:21px;box-shadow:0 20px 70px #0005}
+.panel-head{height:54px;padding:0 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}.panel-head h2{font-size:15px}.panel-head span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.list{padding:8px;max-height:590px;overflow:auto}
+.stock{padding:12px;border-radius:13px;cursor:pointer;border:1px solid transparent;transition:.15s}.stock:hover{background:#ffffff06}.stock.selected{background:#8b5cf612;border-color:#8b5cf645}
+.stock-top{display:flex;justify-content:space-between;align-items:center}.ticker{font-size:12px;font-weight:900}.price{font-size:13px;font-weight:850}.stock-name{font-size:9px;color:var(--muted);margin-top:3px}.stock-bottom{display:flex;justify-content:space-between;margin-top:7px;font-size:9px}
+.middle{min-height:650px}.company{padding:17px}.company-top{display:flex;justify-content:space-between}.company-name{font-size:21px;font-weight:900}.company-meta{font-size:10px;color:var(--muted);margin-top:3px}.big-price{font-size:34px;font-weight:950;letter-spacing:-2px;margin-top:10px}.change{font-size:11px;font-weight:850;margin-top:2px}
+.chart-wrap{height:280px;margin:12px 0;border:1px solid var(--border);border-radius:15px;background:#090b11;position:relative;overflow:hidden}.chart-wrap canvas{width:100%;height:100%;display:block}
+.chart-label{position:absolute;top:10px;left:12px;font-size:9px;color:#62677a}
+.trade{display:grid;grid-template-columns:1fr 1fr;gap:8px}.trade-box{padding:12px;border:1px solid var(--border);border-radius:14px;background:#ffffff03}.trade-box label{font-size:9px;color:var(--muted);display:block;margin-bottom:7px}.trade-row{display:flex;gap:6px}.trade-row input{width:100%;border:1px solid var(--border);background:#ffffff07;border-radius:9px;padding:9px;color:#fff;outline:0;font-size:12px}.trade-row button{padding:9px 13px;border:0;border-radius:9px;cursor:pointer;font-weight:850;font-size:11px}.buy{background:#4ade8020;color:#70ef9a}.sell{background:#fb718520;color:#ff8da0}.trade-info{font-size:9px;color:var(--muted);margin-top:8px}
+.fundamentals{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.fund{padding:9px;border:1px solid var(--border);border-radius:11px;background:#ffffff03}.fund span{font-size:8px;color:var(--muted);display:block}.fund b{font-size:11px;display:block;margin-top:3px}
+.right-panel{min-height:650px}.news{padding:9px;max-height:350px;overflow:auto}.news-item{padding:11px;border-bottom:1px solid var(--border)}.news-item:last-child{border:0}.news-head{display:flex;justify-content:space-between;font-size:9px;color:var(--muted)}.news-title{font-size:11px;font-weight:800;margin-top:5px;line-height:1.4}.news-impact{font-size:9px;margin-top:5px}
+.holdings{padding:9px}.holding{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)}.holding-name{font-size:10px;font-weight:800}.holding-shares{font-size:9px;color:var(--muted);margin-top:3px}.holding-value{text-align:right;font-size:10px;font-weight:800}.holding-pnl{font-size:9px;margin-top:3px}
+.controls{display:flex;gap:6px}.speed{padding:7px 9px;border:1px solid var(--border);background:#ffffff05;border-radius:9px;font-size:9px;cursor:pointer}.speed.active{border-color:#8b5cf655;background:#8b5cf618}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:#171923ee;border:1px solid var(--border);border-radius:13px;padding:13px 18px;font-size:11px;font-weight:800;z-index:30;transition:.3s}.toast.show{transform:translate(-50%,0)}
+.modal-bg{position:fixed;inset:0;background:#000c;backdrop-filter:blur(9px);display:none;place-items:center;z-index:50}.modal-bg.show{display:grid}.modal{width:min(480px,92vw);padding:27px}.modal h2{font-size:26px}.modal p{font-size:11px;color:var(--muted);line-height:1.6;margin-top:8px}.modal-close{margin-top:18px;padding:10px 16px;border:1px solid var(--border);background:#ffffff08;border-radius:10px;cursor:pointer}
+@media(max-width:1050px){.layout{grid-template-columns:1fr 1.4fr}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.news,.holdings{max-height:350px}}
+@media(max-width:700px){.layout{grid-template-columns:1fr}.right-panel{display:block}.top-stats{grid-template-columns:repeat(2,1fr)}.middle{min-height:auto}.chart-wrap{height:230px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header>
-<div class="logo">IDLE<span>CLICKER</span></div>
-<div class="header-right"><button class="icon" id="sound">🔊</button><button class="icon" id="reset">↻</button></div>
+<div class="logo">MARKET<span>MOGUL</span></div>
+<div class="header-right">
+<div class="day" id="time">DAY 1 • 09:30</div>
+<div class="controls">
+<button class="speed active" data-speed="1">1×</button>
+<button class="speed" data-speed="5">5×</button>
+<button class="speed" data-speed="20">20×</button>
+</div>
+<button class="icon" id="save">💾</button>
+<button class="icon" id="reset">↻</button>
+</div>
 </header>
 
-<section class="resources">
-<div class="resource"><span>Coins</span><b id="coins">0</b></div>
-<div class="resource"><span>Per Second</span><b id="cps">0</b></div>
-<div class="resource"><span>Click Power</span><b id="clickPower">1</b></div>
-<div class="resource"><span>Prestige</span><b id="prestige">0</b></div>
+<section class="top-stats">
+<div class="stat"><span>Net Worth</span><b id="netWorth">$100,000</b></div>
+<div class="stat"><span>Cash</span><b id="cash">$100,000</b></div>
+<div class="stat"><span>Today's P/L</span><b id="daily">+$0</b></div>
+<div class="stat"><span>Market</span><b id="market">BULLISH</b></div>
 </section>
 
 <main class="layout">
-<section class="card clicker">
-<div class="currency">Coins</div>
-<div class="amount" id="mainCoins">0</div>
-<div class="cps" id="mainCps">+0 / second</div>
-<button class="coin" id="coin"></button>
-<div class="click-info" id="clickInfo">+1 per click • 250ms cooldown</div>
-<div class="combo" id="combo"></div>
-<div class="progress"><i id="clickProgress"></i></div>
+<section class="card">
+<div class="panel-head"><h2>Market</h2><span id="marketMood">OPEN</span></div>
+<div class="list" id="stocks"></div>
 </section>
 
-<section class="card shop">
-<div class="shop-header"><h2 id="shopTitle">Generators</h2><span id="shopSubtitle">Build your empire</span></div>
-<div class="tabs">
-<button class="tab active" data-tab="generators">Buildings</button>
-<button class="tab" data-tab="upgrades">Upgrades</button>
-<button class="tab" data-tab="research">Research</button>
+<section class="card middle">
+<div class="panel-head"><h2 id="selectedName">Nova Technologies</h2><span id="selectedTicker">NOVA</span></div>
+<div class="company">
+<div class="company-top"><div><div class="company-name" id="companyName">Nova Technologies</div><div class="company-meta" id="companyMeta">Technology • Growth</div></div></div>
+<div class="big-price" id="selectedPrice">$50.00</div>
+<div class="change" id="selectedChange">+0.00%</div>
+<div class="chart-wrap"><canvas id="chart"></canvas><div class="chart-label">1D PRICE</div></div>
+
+<div class="trade">
+<div class="trade-box">
+<label>BUY SHARES</label>
+<div class="trade-row"><input id="buyAmount" type="number" min="1" value="10"><button class="buy" id="buy">BUY</button></div>
+<div class="trade-info" id="buyCost">$500</div>
 </div>
-<div class="items" id="items"></div>
-<div class="research" id="research"><div class="tree" id="tree"></div></div>
+<div class="trade-box">
+<label>SELL SHARES</label>
+<div class="trade-row"><input id="sellAmount" type="number" min="1" value="10"><button class="sell" id="sell">SELL</button></div>
+<div class="trade-info" id="sellValue">$500</div>
+</div>
+</div>
+
+<div class="fundamentals">
+<div class="fund"><span>Market Cap</span><b id="fCap">$500M</b></div>
+<div class="fund"><span>Revenue</span><b id="fRevenue">$120M</b></div>
+<div class="fund"><span>Profit</span><b id="fProfit">$20M</b></div>
+<div class="fund"><span>Growth</span><b id="fGrowth">8%</b></div>
+<div class="fund"><span>Dividend</span><b id="fDividend">1.2%</b></div>
+<div class="fund"><span>Your Ownership</span><b id="fOwnership">0%</b></div>
+</div>
+</div>
+</section>
+
+<section class="card right-panel">
+<div>
+<div class="panel-head"><h2>Market News</h2><span>LIVE</span></div>
+<div class="news" id="news"></div>
+</div>
+<div>
+<div class="panel-head"><h2>Your Portfolio</h2><span id="holdingCount">0 positions</span></div>
+<div class="holdings" id="holdings"></div>
+</div>
 </section>
 </main>
 </div>
 
-<div class="gold" id="gold">★</div>
 <div class="toast" id="toast"></div>
-
-<div class="modal-bg" id="prestigeModal">
-<div class="card modal">
-<h2>Ascension</h2>
-<p>Reset your empire and convert lifetime production into permanent Prestige Points.</p>
-<div class="modal-value" id="prestigeGain">+0</div>
-<p>Each Prestige Point gives +15% global production.</p>
-<button class="modal-btn" id="prestigeBtn">Ascend</button>
-</div>
-</div>
+<div class="modal-bg" id="modal"><div class="card modal"><h2>Company Acquisition</h2><p id="modalText"></p><button class="modal-close" id="modalClose">Close</button></div></div>
 
 <script>
 "use strict";
 
 const $=id=>document.getElementById(id);
-const fmt=n=>n>=1e15?(n/1e15).toFixed(2)+"Q":n>=1e12?(n/1e12).toFixed(2)+"T":n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(2)+"K":Math.floor(n).toLocaleString();
-const KEY="idle_clicker_v2";
+const money=n=>"$"+Math.floor(n).toLocaleString();
+const pct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
 
-const buildings=[
-{id:"cursor",icon:"👆",name:"Auto Clicker",desc:"Clicks once every second.",base:15,prod:1},
-{id:"miner",icon:"⛏️",name:"Coin Miner",desc:"Extracts coins continuously.",base:100,prod:8},
-{id:"farm",icon:"🌾",name:"Coin Farm",desc:"Produces a large harvest every 10 seconds.",base:800,prod:75,timed:10},
-{id:"factory",icon:"🏭",name:"Coin Factory",desc:"Industrial coin production.",base:6500,prod:450},
-{id:"bank",icon:"🏦",name:"Royal Bank",desc:"Turns investments into wealth.",base:50000,prod:3500},
-{id:"lab",icon:"🧪",name:"Quantum Lab",desc:"Harnesses experimental energy.",base:500000,prod:30000},
-{id:"portal",icon:"🌀",name:"Money Portal",desc:"Imports coins from another dimension.",base:5000000,prod:250000}
-];
-
-const upgrades=[
-{id:"click",icon:"💪",name:"Stronger Clicks",desc:"+2 base coins per click.",base:75,max:25},
-{id:"speed",icon:"⚡",name:"Rapid Clicking",desc:"Click cooldown -20ms.",base:250,max:20},
-{id:"crit",icon:"💥",name:"Critical Hits",desc:"+5% critical click chance.",base:500,max:10},
-{id:"combo",icon:"🔥",name:"Combo Master",desc:"Combo multiplier improves.",base:1500,max:10},
-{id:"production",icon:"⚙️",name:"Better Machines",desc:"+10% building production.",base:2500,max:20},
-{id:"gold",icon:"🍀",name:"Golden Fortune",desc:"+30% Golden Coin rewards.",base:7500,max:10},
-{id:"mega",icon:"🚀",name:"Mega Production",desc:"+25% all production.",base:50000,max:10}
-];
-
-const research=[
-{id:"start",icon:"🧠",name:"Basic Economics",desc:"+10% coins from clicking.",cost:1000,req:[],effect:"click10"},
-{id:"automation",icon:"🤖",name:"Automation",desc:"Buildings produce +20%.",cost:5000,req:["start"],effect:"prod20"},
-{id:"agriculture",icon:"🌾",name:"Agriculture",desc:"Coin Farms harvest 2×.",cost:12000,req:["automation"],effect:"farm2"},
-{id:"commerce",icon:"💰",name:"Commerce",desc:"All building costs are 5% cheaper.",cost:25000,req:["automation"],effect:"cheap"},
-{id:"precision",icon:"🎯",name:"Precision",desc:"Critical hits deal 2× more.",cost:50000,req:["start"],effect:"crit2"},
-{id:"industry",icon:"🏭",name:"Industrial Revolution",desc:"Factories produce 3×.",cost:100000,req:["agriculture","commerce"],effect:"factory3"},
-{id:"banking",icon:"🏦",name:"Advanced Banking",desc:"Banks produce 3×.",cost:250000,req:["commerce"],effect:"bank3"},
-{id:"quantum",icon:"⚛️",name:"Quantum Physics",desc:"Quantum Labs produce 5×.",cost:1000000,req:["industry"],effect:"lab5"},
-{id:"ascension",icon:"👑",name:"Ascension Theory",desc:"Prestige bonus is increased by 50%.",cost:5000000,req:["quantum","banking"],effect:"prestige50"}
+const companies=[
+{id:"NOVA",name:"Nova Technologies",sector:"Technology",style:"Growth",price:50,shares:10000000,growth:.075,vol:.035,div:.012,revenue:120000000,profit:20000000,color:0},
+{id:"QCORE",name:"Quantum Core",sector:"Technology",style:"Speculative",price:82,shares:5000000,growth:.11,vol:.065,div:0,revenue:80000000,profit:9000000,color:1},
+{id:"ATLS",name:"Atlas Energy",sector:"Energy",style:"Value",price:36,shares:18000000,growth:.035,vol:.025,div:.052,revenue:350000000,profit:62000000,color:2},
+{id:"BLUE",name:"BlueMart",sector:"Retail",style:"Defensive",price:28,shares:25000000,growth:.025,vol:.018,div:.034,revenue:620000000,profit:78000000,color:3},
+{id:"MEDX",name:"Medica Labs",sector:"Healthcare",style:"Growth",price:64,shares:9000000,growth:.085,vol:.04,div:.008,revenue:190000000,profit:28000000,color:4},
+{id:"ORBT",name:"Orbit Motors",sector:"Automotive",style:"Cyclical",price:44,shares:12000000,growth:.055,vol:.05,div:.018,revenue:480000000,profit:41000000,color:5},
+{id:"ATLSB",name:"Atlas Bank",sector:"Finance",style:"Value",price:31,shares:30000000,growth:.032,vol:.022,div:.058,revenue:410000000,profit:91000000,color:6},
+{id:"SYNX",name:"Synex Robotics",sector:"Robotics",style:"Speculative",price:19,shares:22000000,growth:.13,vol:.075,div:0,revenue:50000000,profit:3000000,color:7},
+{id:"FUEL",name:"FuelWorks",sector:"Energy",style:"Cyclical",price:73,shares:7000000,growth:.02,vol:.06,div:.041,revenue:710000000,profit:83000000,color:8},
+{id:"CLOUD",name:"CloudNine",sector:"Software",style:"Growth",price:91,shares:6000000,growth:.105,vol:.055,div:.003,revenue:260000000,profit:39000000,color:9}
 ];
 
 let state={
-coins:0,total:0,clicks:0,crit:0,prestige:0,lastSave:Date.now(),
-combo:0,comboTime:0,tab:"generators",sound:true,research:[]
+cash:100000,totalInvested:0,day:1,tick:0,speed:1,selected:"NOVA",
+holdings:{},costBasis:{},prices:{},history:{},news:[],market:"BULLISH",
+lastSave:Date.now()
 };
 
-let cooldownUntil=0,lastTime=performance.now(),goldTimer=0;
+let lastTick=performance.now();
+companies.forEach(c=>{state.prices[c.id]=c.price;state.history[c.id]=[c.price]});
 
 function load(){
-try{const s=JSON.parse(localStorage.getItem(KEY));if(s)state={...state,...s}}catch{}
-buildings.forEach(b=>b.owned=state["b_"+b.id]||0);
-upgrades.forEach(u=>u.level=state["u_"+u.id]||0);
-const offline=Math.min((Date.now()-state.lastSave)/1000,28800);
-if(offline>10){const earned=production()*offline;state.coins+=earned;state.total+=earned;toast(`Welcome back! +${fmt(earned)} offline coins.`)}
+try{
+const saved=JSON.parse(localStorage.getItem("market_mogul"));
+if(saved)state={...state,...saved};
+}catch{}
+companies.forEach(c=>{
+if(!state.prices[c.id])state.prices[c.id]=c.price;
+if(!state.history[c.id])state.history[c.id]=[state.prices[c.id]];
+});
+const offline=Math.min((Date.now()-state.lastSave)/1000,43200);
+if(offline>30){
+const ticks=Math.floor(offline*state.speed/2);
+for(let i=0;i<Math.min(ticks,5000);i++)marketTick(false);
+const value=portfolioValue();
+toast(`While you were away, your portfolio is now worth ${money(value)}.`);
+}
 }
 
 function save(){
-buildings.forEach(b=>state["b_"+b.id]=b.owned);
-upgrades.forEach(u=>state["u_"+u.id]=u.level);
 state.lastSave=Date.now();
-localStorage.setItem(KEY,JSON.stringify(state));
+localStorage.setItem("market_mogul",JSON.stringify(state));
+toast("Game saved.");
 }
 
-function hasResearch(id){return state.research.includes(id)}
-function level(id){return upgrades.find(u=>u.id===id)?.level||0}
-
-function production(){
-let value=buildings.reduce((n,b)=>n+b.owned*b.prod,0);
-value*=1+level("production")*.1;
-value*=1+level("mega")*.25;
-value*=1+state.prestige*.15;
-if(hasResearch("automation"))value*=1.2;
-if(hasResearch("ascension"))value*=1+state.prestige*.075;
-if(hasResearch("agriculture"))value+=buildings.find(b=>b.id==="farm").owned*buildings.find(b=>b.id==="farm").prod;
-if(hasResearch("industry"))value+=buildings.find(b=>b.id==="factory").owned*buildings.find(b=>b.id==="factory").prod*2;
-if(hasResearch("banking"))value+=buildings.find(b=>b.id==="bank").owned*buildings.find(b=>b.id==="bank").prod*2;
-if(hasResearch("quantum"))value+=buildings.find(b=>b.id==="lab").owned*buildings.find(b=>b.id==="lab").prod*4;
-return value;
+function portfolioValue(){
+return companies.reduce((n,c)=>n+(state.holdings[c.id]||0)*state.prices[c.id],0);
 }
 
-function clickPower(){
-let value=1+level("click")*2;
-value*=1+state.prestige*.15;
-if(hasResearch("start"))value*=1.1;
-return value;
-}
+function netWorth(){return state.cash+portfolioValue()}
 
-function cooldown(){
-return Math.max(70,250-level("speed")*9);
-}
+function ownership(c){return ((state.holdings[c.id]||0)/c.shares)*100}
 
-function critChance(){return .05+level("crit")*.05}
+function marketTick(addNews=true){
+state.tick++;
+companies.forEach(c=>{
+let p=state.prices[c.id];
+let marketMove=state.market==="BULLISH"?.002:state.market==="BEARISH"?-.002:0;
+let fundamental=c.growth/365;
+let random=(Math.random()-.5)*c.vol;
+let sectorMove=0;
 
-function comboMultiplier(){
-return 1+Math.min(5,Math.floor(state.combo/5)*.25)*(1+level("combo")*.12);
-}
+if(c.sector==="Technology"&&state.market==="BULLISH")sectorMove=.002;
+if(c.sector==="Energy"&&state.market==="BEARISH")sectorMove=-.001;
+if(c.style==="Defensive")random*=.55;
+if(c.style==="Speculative")random*=1.35;
 
-function buildingCost(b){
-let discount=hasResearch("commerce")?.95:1;
-return Math.floor(b.base*Math.pow(1.15,b.owned)*discount);
-}
+p*=1+marketMove+fundamental+random+sectorMove;
+state.prices[c.id]=Math.max(.5,p);
 
-function upgradeCost(u){return Math.floor(u.base*Math.pow(1.75,u.level))}
-function researchUnlocked(r){return r.req.every(hasResearch)}
-function earn(n){state.coins+=n;state.total+=n}
-
-function float(text,x,y){
-const e=document.createElement("div");
-e.className="float";
-e.textContent=text;
-e.style.left=x+"px";
-e.style.top=y+"px";
-document.body.appendChild(e);
-setTimeout(()=>e.remove(),800);
-}
-
-let toastTimer;
-function toast(text){
-const e=$("toast");
-e.textContent=text;
-e.classList.add("show");
-clearTimeout(toastTimer);
-toastTimer=setTimeout(()=>e.classList.remove("show"),2300);
-}
-
-function renderResources(){
-const c=fmt(state.coins),p=fmt(production()),cp=fmt(clickPower());
-$("coins").textContent=c;
-$("mainCoins").textContent=c;
-$("cps").textContent=p;
-$("mainCps").textContent="+"+p+" / second";
-$("clickPower").textContent=cp;
-$("prestige").textContent=state.prestige;
-$("clickInfo").textContent=`+${cp} per click • ${cooldown()}ms cooldown`;
-$("combo").textContent=state.combo>1?`🔥 ${state.combo} COMBO ×${comboMultiplier().toFixed(2)}`:"";
-}
-
-function renderBuildings(){
-$("items").innerHTML=buildings.map(b=>{
-const cost=buildingCost(b);
-return `<div class="item"><div class="item-icon">${b.icon}</div><div><div class="item-name">${b.name}</div><div class="item-desc">${b.desc}</div><div class="owned">OWNED: ${b.owned}${b.timed?" • EVERY "+b.timed+"s":""}</div></div><button class="buy" data-type="building" data-id="${b.id}" ${state.coins<cost?"disabled":""}>BUY<span class="cost">${fmt(cost)}</span></button></div>`;
-}).join("");
-}
-
-function renderUpgrades(){
-$("items").innerHTML=upgrades.map(u=>{
-const cost=upgradeCost(u),max=u.level>=u.max;
-return `<div class="item"><div class="item-icon">${u.icon}</div><div><div class="item-name">${u.name}</div><div class="item-desc">${u.desc}</div><div class="owned">LEVEL ${u.level}/${u.max}</div></div><button class="buy" data-type="upgrade" data-id="${u.id}" ${state.coins<cost||max?"disabled":""}>${max?"MAX":"UPGRADE"}<span class="cost">${max?"":fmt(cost)}</span></button></div>`;
-}).join("");
-}
-
-function renderResearch(){
-$("tree").innerHTML=research.map(r=>{
-const owned=hasResearch(r.id),unlocked=researchUnlocked(r);
-return `<div class="node ${owned?"owned":unlocked?"unlocked":"locked"}"><div class="node-icon">${r.icon}</div><div class="node-name">${r.name}</div><div class="node-desc">${r.desc}</div><button class="research-buy" data-research="${r.id}" ${owned||!unlocked||state.coins<r.cost?"disabled":""}>${owned?"RESEARCHED":!unlocked?"LOCKED":"RESEARCH • "+fmt(r.cost)}</button></div>`;
-}).join("");
-}
-
-function renderShop(){
-const research=state.tab==="research";
-$("items").style.display=research?"none":"flex";
-$("research").classList.toggle("active",research);
-$("shopTitle").textContent=research?"Research Tree":state.tab==="generators"?"Buildings":"Upgrades";
-$("shopSubtitle").textContent=research?"Unlock permanent discoveries":"Build your empire";
-if(state.tab==="generators")renderBuildings();
-if(state.tab==="upgrades")renderUpgrades();
-if(research)renderResearch();
-}
-
-function render(){
-renderResources();
-renderShop();
-}
-
-document.querySelector(".tabs").addEventListener("click",e=>{
-const tab=e.target.closest(".tab");
-if(!tab)return;
-document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-tab.classList.add("active");
-state.tab=tab.dataset.tab;
-renderShop();
+const h=state.history[c.id];
+h.push(p);
+if(h.length>100)h.shift();
 });
 
-$("items").addEventListener("click",e=>{
-const button=e.target.closest(".buy");
-if(!button)return;
-const id=button.dataset.id;
-
-if(button.dataset.type==="building"){
-const b=buildings.find(x=>x.id===id);
-const cost=buildingCost(b);
-if(state.coins<cost)return;
-state.coins-=cost;
-b.owned++;
-toast(`${b.icon} ${b.name} purchased`);
-}else{
-const u=upgrades.find(x=>x.id===id);
-const cost=upgradeCost(u);
-if(state.coins<cost||u.level>=u.max)return;
-state.coins-=cost;
-u.level++;
-toast(`${u.icon} ${u.name} upgraded`);
+if(state.tick%30===0){
+state.day++;
+if(Math.random()<.08){
+state.market=state.market==="BULLISH"?"NEUTRAL":state.market==="BEARISH"?"NEUTRAL":Math.random()<.5?"BULLISH":"BEARISH";
+const text=state.market==="BULLISH"?"Investors are increasingly optimistic. Markets enter a bullish phase.":state.market==="BEARISH"?"Fear spreads across Wall Street as investors turn defensive.":"Markets stabilize after recent volatility.";
+addNews("MARKET",text,state.market==="BULLISH"?"+":"-");
 }
-renderResources();
-renderShop();
-});
+if(addNews&&Math.random()<.32)companyEvent();
+payDividends();
+}
+}
 
-$("research").addEventListener("click",e=>{
-const button=e.target.closest(".research-buy");
-if(!button)return;
-const r=research.find(x=>x.id===button.dataset.research);
-if(!r||hasResearch(r.id)||!researchUnlocked(r)||state.coins<r.cost)return;
-state.coins-=r.cost;
-state.research.push(r.id);
-toast(`${r.icon} ${r.name} researched!`);
+function companyEvent(){
+const c=companies[Math.floor(Math.random()*companies.length)];
+const events=[
+["Record earnings beat expectations",.07,"positive"],
+["announces major new product",.09,"positive"],
+["wins a huge government contract",.12,"positive"],
+["CEO announces surprise resignation",-0.08,"negative"],
+["faces regulatory investigation",-0.13,"negative"],
+["reports disappointing earnings",-0.1,"negative"],
+["opens a major new facility",.055,"positive"],
+["loses an important customer",-0.075,"negative"]
+];
+const e=events[Math.floor(Math.random()*events.length)];
+state.prices[c.id]*=1+e[1];
+addNews(c.id,`${c.name} ${e[0]}.`,e[1]>=0?`+${(e[1]*100).toFixed(1)}%`:`${(e[1]*100).toFixed(1)}%`);
+}
+
+function payDividends(){
+companies.forEach(c=>{
+const shares=state.holdings[c.id]||0;
+if(shares&&c.div){
+const payment=shares*state.prices[c.id]*c.div/365;
+state.cash+=payment;
+}
+});
+}
+
+function addNews(ticker,text,impact){
+state.news.unshift({ticker,text,impact,day:state.day});
+state.news=state.news.slice(0,25);
+}
+
+function buy(){
+const c=getSelected();
+const amount=Math.floor(Number($("buyAmount").value));
+if(!amount||amount<1)return;
+const cost=amount*state.prices[c.id];
+if(cost>state.cash){toast("Not enough cash.");return}
+state.cash-=cost;
+state.holdings[c.id]=(state.holdings[c.id]||0)+amount;
+state.costBasis[c.id]=(state.costBasis[c.id]||0)+cost;
+toast(`Bought ${amount.toLocaleString()} ${c.id} shares for ${money(cost)}.`);
+render();
+}
+
+function sell(){
+const c=getSelected();
+const amount=Math.floor(Number($("sellAmount").value));
+const owned=state.holdings[c.id]||0;
+if(!amount||amount<1)return;
+if(amount>owned){toast("You don't own that many shares.");return}
+const value=amount*state.prices[c.id];
+state.cash+=value;
+state.holdings[c.id]-=amount;
+state.costBasis[c.id]=Math.max(0,(state.costBasis[c.id]||0)-value);
+toast(`Sold ${amount.toLocaleString()} ${c.id} shares for ${money(value)}.`);
+render();
+}
+
+function getSelected(){return companies.find(c=>c.id===state.selected)}
+
+function renderMarket(){
+$("stocks").innerHTML=companies.map(c=>{
+const old=state.history[c.id]?.[0]||state.prices[c.id];
+const change=(state.prices[c.id]/old-1)*100;
+return `<div class="stock ${c.id===state.selected?"selected":""}" data-stock="${c.id}">
+<div class="stock-top"><span class="ticker">${c.id}</span><span class="price">${money(state.prices[c.id])}</span></div>
+<div class="stock-name">${c.name} • ${c.sector}</div>
+<div class="stock-bottom"><span>${c.style}</span><span class="${change>=0?"green":"red"}">${pct(change)}</span></div>
+</div>`;
+}).join("");
+}
+
+function renderCompany(){
+const c=getSelected(),p=state.prices[c.id],h=state.history[c.id],old=h[0]||p;
+const change=(p/old-1)*100;
+const shares=state.holdings[c.id]||0;
+$("selectedName").textContent=c.name;
+$("selectedTicker").textContent=c.id;
+$("companyName").textContent=c.name;
+$("companyMeta").textContent=`${c.sector} • ${c.style}`;
+$("selectedPrice").textContent=money(p);
+$("selectedChange").textContent=pct(change);
+$("selectedChange").className="change "+(change>=0?"green":"red");
+$("buyCost").textContent=money(Number($("buyAmount").value||0)*p);
+$("sellValue").textContent=money(Number($("sellAmount").value||0)*p);
+$("fCap").textContent=money(p*c.shares);
+$("fRevenue").textContent=money(c.revenue);
+$("fProfit").textContent=money(c.profit);
+$("fGrowth").textContent=(c.growth*100).toFixed(1)+"%";
+$("fDividend").textContent=(c.div*100).toFixed(1)+"%";
+$("fOwnership").textContent=ownership(c).toFixed(2)+"%";
+drawChart(h);
+}
+
+function drawChart(data){
+const canvas=$("chart"),rect=canvas.getBoundingClientRect(),d=devicePixelRatio||1;
+canvas.width=rect.width*d;canvas.height=rect.height*d;
+const ctx=canvas.getContext("2d");ctx.scale(d,d);
+const w=rect.width,h=rect.height,pad=20;
+if(data.length<2)return;
+const min=Math.min(...data),max=Math.max(...data),range=max-min||1;
+ctx.strokeStyle="#ffffff0a";ctx.lineWidth=1;
+for(let i=1;i<5;i++){const y=i*h/5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ctx.beginPath();
+data.forEach((v,i)=>{
+const x=pad+(i/(data.length-1))*(w-pad*2);
+const y=h-pad-((v-min)/range)*(h-pad*2);
+i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+});
+ctx.strokeStyle="#9d7aff";ctx.lineWidth=2;ctx.stroke();
+const last=data[data.length-1],x=w-pad,y=h-pad-((last-min)/range)*(h-pad*2);
+ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+}
+
+function renderNews(){
+if(!state.news.length){
+$("news").innerHTML=`<div class="news-item"><div class="news-title">No major news yet.</div></div>`;
+return;
+}
+$("news").innerHTML=state.news.map(n=>`<div class="news-item"><div class="news-head"><span>${n.ticker}</span><span>DAY ${n.day}</span></div><div class="news-title">${n.text}</div><div class="news-impact ${n.impact[0]=="+"?"green":"red"}">${n.impact}</div></div>`).join("");
+}
+
+function renderHoldings(){
+const entries=companies.filter(c=>(state.holdings[c.id]||0)>0);
+$("holdingCount").textContent=entries.length+" position"+(entries.length===1?"":"s");
+$("holdings").innerHTML=entries.length?entries.map(c=>{
+const shares=state.holdings[c.id],value=shares*state.prices[c.id],basis=state.costBasis[c.id]||0,pnl=value-basis;
+return `<div class="holding"><div><div class="holding-name">${c.id} • ${c.name}</div><div class="holding-shares">${shares.toLocaleString()} shares</div></div><div class="holding-value">${money(value)}<div class="holding-pnl ${pnl>=0?"green":"red"}">${pnl>=0?"+":""}${money(pnl)}</div></div></div>`;
+}).join(""):`<div class="news-item"><div class="news-title">You don't own any companies yet.</div></div>`;
+}
+
+function renderTop(){
+const nw=netWorth();
+$("netWorth").textContent=money(nw);
+$("cash").textContent=money(state.cash);
+$("daily").textContent="+"+money(Math.max(0,nw-100000));
+$("daily").className="stat";
+$("market").textContent=state.market;
+$("market").className=state.market==="BULLISH"?"green":state.market==="BEARISH"?"red":"gold";
+$("time").textContent=`DAY ${state.day} • ${String(9+Math.floor(state.tick%390/60)).padStart(2,"0")}:${String(30+state.tick%60).padStart(2,"0")}`;
+}
+
+function render(){renderTop();renderMarket();renderCompany();renderNews();renderHoldings()}
+
+$("stocks").addEventListener("click",e=>{
+const s=e.target.closest(".stock");
+if(!s)return;
+state.selected=s.dataset.stock;
 render();
 });
 
-$("coin").addEventListener("pointerdown",e=>{
-const now=performance.now();
-if(now<cooldownUntil)return;
-cooldownUntil=now+cooldown();
-const coin=$("coin");
-coin.classList.add("cooldown");
-setTimeout(()=>coin.classList.remove("cooldown"),cooldown());
+$("buy").onclick=buy;
+$("sell").onclick=sell;
+$("buyAmount").oninput=renderCompany;
+$("sellAmount").oninput=renderCompany;
 
-let amount=clickPower()*comboMultiplier();
-let critical=Math.random()<critChance();
-
-if(critical){
-amount*=5;
-if(hasResearch("precision"))amount*=2;
-state.crit++;
-float("💥 CRITICAL +"+fmt(amount),e.clientX,e.clientY);
-}else{
-float("+"+fmt(amount),e.clientX,e.clientY);
-}
-
-earn(amount);
-state.clicks++;
-state.combo++;
-state.comboTime=2;
-
-coin.animate(
-[{transform:"scale(.9)"},{transform:"scale(1)"}],
-{duration:100,easing:"ease-out"}
-);
-
-if(state.sound){
-try{
-const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();
-o.frequency.value=critical?760:420;
-g.gain.value=.035;
-o.connect(g);g.connect(a.destination);
-o.start();o.stop(a.currentTime+.06);
-}catch{}
-}
-
-renderResources();
+document.querySelectorAll(".speed").forEach(b=>b.onclick=()=>{
+document.querySelectorAll(".speed").forEach(x=>x.classList.remove("active"));
+b.classList.add("active");
+state.speed=Number(b.dataset.speed);
 });
 
-$("gold").onclick=e=>{
-const reward=Math.max(1000,state.coins*.1)*(1+level("gold")*.3);
-earn(reward);
-$("gold").style.display="none";
-float("⭐ +"+fmt(reward),e.clientX,e.clientY);
-toast("Golden Coin collected!");
-renderResources();
-};
-
-function spawnGolden(){
-const e=$("gold");
-e.style.left=8+Math.random()*84+"vw";
-e.style.top=15+Math.random()*65+"vh";
-e.style.display="grid";
-clearTimeout(window.goldTimeout);
-window.goldTimeout=setTimeout(()=>e.style.display="none",7000);
-}
-
-function tick(dt){
-const normal=production()*dt;
-earn(normal);
-
-buildings.filter(b=>b.timed&&b.owned).forEach(b=>{
-b.timer=(b.timer||0)+dt;
-if(b.timer>=b.timed){
-b.timer=0;
-let reward=b.owned*b.prod*b.timed;
-if(b.id==="farm"&&hasResearch("agriculture"))reward*=2;
-earn(reward);
-toast(`${b.icon} ${b.name} harvested +${fmt(reward)}`);
-}
-});
-
-if(state.comboTime>0){
-state.comboTime-=dt;
-if(state.comboTime<=0)state.combo=0;
-}
-
-goldTimer+=dt;
-if(goldTimer>35){
-goldTimer=0;
-spawnGolden();
-}
-}
-
-function loop(now){
-const dt=Math.min((now-lastTime)/1000,.25);
-lastTime=now;
-tick(dt);
-renderResources();
-
-const remaining=Math.max(0,cooldownUntil-performance.now());
-$("clickProgress").style.width=(1-remaining/cooldown())*100+"%";
-
-requestAnimationFrame(loop);
-}
+$("save").onclick=save;
 
 $("reset").onclick=()=>{
-if(confirm("Reset all Idle Clicker progress?")){
-localStorage.removeItem(KEY);
+if(confirm("Reset your entire Market Mogul empire?")){
+localStorage.removeItem("market_mogul");
 location.reload();
 }
 };
 
-$("sound").onclick=()=>{
-state.sound=!state.sound;
-$("sound").textContent=state.sound?"🔊":"🔇";
-};
+$("modalClose").onclick=()=>$("modal").classList.remove("show");
 
-function prestigeGain(){
-return Math.floor(Math.sqrt(state.total/100000));
+function toast(text){
+const e=$("toast");
+e.textContent=text;
+e.classList.add("show");
+clearTimeout(window.toastTimer);
+window.toastTimer=setTimeout(()=>e.classList.remove("show"),2300);
 }
 
-function openPrestige(){
-const gain=prestigeGain();
-if(gain<=0){toast("Earn at least 100,000 lifetime coins first.");return}
-$("prestigeGain").textContent="+"+gain;
-$("prestigeModal").classList.add("show");
-}
-
-$("prestige").parentElement.onclick=openPrestige;
-
-$("prestigeBtn").onclick=()=>{
-const gain=prestigeGain();
-if(gain<=0)return;
-state.prestige+=gain;
-state.coins=0;
-state.combo=0;
-state.research=[];
-buildings.forEach(b=>b.owned=0);
-upgrades.forEach(u=>u.level=0);
-$("prestigeModal").classList.remove("show");
-toast(`👑 Ascended! +${gain} Prestige`);
+function loop(now){
+const interval=state.speed===1?1000:state.speed===5?200:50;
+if(now-lastTick>=interval){
+lastTick=now;
+marketTick();
 render();
-};
-
-addEventListener("beforeunload",save);
-setInterval(save,5000);
+}
+requestAnimationFrame(loop);
+}
 
 load();
 render();
 requestAnimationFrame(loop);
+setInterval(save,15000);
+addEventListener("beforeunload",save);
 </script>
 </body>
 </html>
