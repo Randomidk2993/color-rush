@@ -2,116 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Color Rush</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Idle Clicker</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07080d;--panel:rgba(18,20,31,.8);--border:rgba(255,255,255,.09);--muted:#8d92a6;--purple:#8b5cf6}
-body{min-height:100vh;background:radial-gradient(circle at 15% 10%,#8b5cf626,transparent 30%),radial-gradient(circle at 85% 85%,#2dd4bf14,transparent 30%),var(--bg);color:#fff;font-family:Inter,system-ui,sans-serif;overflow:hidden}
-button{font:inherit}
-.app{width:min(1050px,94vw);margin:auto;padding:25px 0}
-.header{height:55px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:24px;font-weight:900;letter-spacing:-1px}.logo span{color:#9d7cff}
-.actions{display:flex;gap:8px}.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff08;color:#fff;cursor:pointer}
-.screen{display:none}.screen.active{display:block}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:28px;backdrop-filter:blur(20px);box-shadow:0 30px 100px #00000059}
-.menu{text-align:center;padding:65px 30px;margin-top:15px}
-.badge{display:inline-flex;padding:8px 13px;border:1px solid #8b5cf640;border-radius:999px;background:#8b5cf612;color:#bba9ff;font-size:11px;font-weight:800;letter-spacing:1px}
-h1{font-size:clamp(58px,10vw,100px);line-height:.85;letter-spacing:-7px;margin:25px 0 20px}
-.subtitle{max-width:520px;margin:auto auto 30px;color:var(--muted);font-size:15px;line-height:1.7}
-.primary{border:0;border-radius:15px;padding:15px 27px;color:#fff;font-weight:850;background:linear-gradient(135deg,#8b5cf6,#6745dc);box-shadow:0 15px 35px #7c52ef40;cursor:pointer;transition:.2s}.primary:hover{transform:translateY(-3px)}
-.modes{display:flex;justify-content:center;gap:8px;margin-top:14px}.mode{padding:9px 15px;border:1px solid var(--border);border-radius:12px;background:#ffffff06;color:var(--muted);cursor:pointer}.mode.selected{background:#8b5cf620;border-color:#8b5cf680;color:#fff}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:620px;margin:30px auto 0}.stat{padding:14px;border:1px solid var(--border);border-radius:16px;background:#ffffff05}.stat b{display:block;font-size:20px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.game{padding:20px;margin-top:15px}.hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}.right{text-align:right}.label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}.value{font-size:21px;font-weight:900}.combo{color:#ffd166;font-weight:900}
-.game-wrap{position:relative;margin-top:15px;height:min(68vh,650px);min-height:430px;overflow:hidden;border-radius:20px;background:#090b12;border:1px solid var(--border)}
-canvas{display:block;width:100%;height:100%}
-.game-info{position:absolute;top:15px;left:50%;transform:translateX(-50%);color:#777d91;font-size:11px;letter-spacing:1px;pointer-events:none;white-space:nowrap}
-.bottom{display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:11px}.link{border:0;background:none;color:#a78bfa;cursor:pointer}
-.overlay{position:fixed;inset:0;z-index:10;display:none;place-items:center;padding:20px;background:#030408bf;backdrop-filter:blur(10px)}.overlay.show{display:grid}
-.modal{width:min(470px,94vw);padding:38px;text-align:center}.modal h2{font-size:35px;letter-spacing:-2px;margin:15px 0 5px}.modal p{color:var(--muted)}
-.final-score{font-size:68px;font-weight:950;letter-spacing:-5px;margin:15px 0}.results{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0}.result{padding:13px;border:1px solid var(--border);border-radius:14px;background:#ffffff05}.result b{display:block;font-size:18px}.result span{font-size:9px;color:var(--muted);text-transform:uppercase}
-.modal-buttons{display:flex;justify-content:center;gap:9px}.secondary{padding:13px 18px;border:1px solid var(--border);border-radius:14px;background:#ffffff08;color:#fff;cursor:pointer;font-weight:750}
-.powerups{display:flex;justify-content:center;gap:8px;margin-top:10px;height:20px}.power{font-size:12px;color:#a78bfa}
-@media(max-width:650px){.app{width:94vw}.menu{padding:45px 20px}.stats{grid-template-columns:1fr}.hud{grid-template-columns:1fr 1fr}.combo{grid-column:1/-1;grid-row:1;text-align:center;margin-bottom:8px}.game-wrap{min-height:420px}.modes{flex-wrap:wrap}}
+:root{--bg:#07080d;--panel:#11131c;--panel2:#171a26;--border:#ffffff12;--purple:#8b5cf6;--text:#f8f8fb;--muted:#8d91a3;--green:#4ade80;--gold:#ffd166}
+body{background:radial-gradient(circle at 50% -10%,#8b5cf625,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit}
+.app{width:min(1200px,94vw);margin:auto;padding:22px 0 40px}
+header{height:52px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:23px;font-weight:950;letter-spacing:-1.2px}.logo span{color:#9d7aff}
+.header-right{display:flex;gap:8px}
+.icon{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:#ffffff07;cursor:pointer}
+.dashboard{display:grid;grid-template-columns:1.1fr .9fr;gap:15px;margin-top:15px}
+.card{background:linear-gradient(145deg,#151722e8,#0f1119e8);border:1px solid var(--border);border-radius:25px;box-shadow:0 25px 80px #0005}
+.click-area{min-height:650px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.currency{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:800}
+.amount{font-size:64px;font-weight:950;letter-spacing:-4px;margin:5px 0}
+.persec{color:var(--green);font-size:14px;font-weight:800}
+.coin{width:220px;height:220px;border-radius:50%;margin:38px 0 28px;border:8px solid #b995ff;background:radial-gradient(circle at 35% 28%,#c9b6ff,#8b5cf6 50%,#5d35c4);box-shadow:0 0 0 10px #8b5cf612,0 20px 70px #8b5cf655,inset 0 -20px 30px #43208c66;cursor:pointer;transition:transform .08s;user-select:none;position:relative}
+.coin:before{content:"$";position:absolute;inset:0;display:grid;place-items:center;font-size:95px;font-weight:950;color:#fff8;text-shadow:0 5px 10px #0004}
+.coin:active{transform:scale(.91)}
+.click-power{font-size:13px;color:var(--muted)}
+.combo{margin-top:12px;height:25px;color:var(--gold);font-weight:900}
+.shop{padding:20px;display:flex;flex-direction:column;min-height:650px}
+.shop-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.shop-head h2{font-size:20px;letter-spacing:-.7px}.shop-head span{font-size:11px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{border:1px solid var(--border);background:#ffffff05;border-radius:10px;padding:8px 11px;font-size:11px;cursor:pointer;color:var(--muted)}.tab.active{background:#8b5cf620;color:#fff;border-color:#8b5cf655}
+.items{display:flex;flex-direction:column;gap:8px;overflow:auto;padding-right:2px}
+.item{display:grid;grid-template-columns:44px 1fr auto;gap:11px;align-items:center;padding:12px;border:1px solid var(--border);background:#ffffff04;border-radius:15px;transition:.15s}
+.item:hover{background:#ffffff08;border-color:#ffffff18}
+.item-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#8b5cf615;font-size:21px}
+.item-name{font-size:13px;font-weight:850}.item-desc{font-size:10px;color:var(--muted);margin-top:3px}.item-owned{font-size:9px;color:#9d7aff;margin-top:4px}
+.buy{border:1px solid #8b5cf650;background:#8b5cf614;border-radius:10px;padding:9px 10px;min-width:82px;cursor:pointer;font-size:11px;font-weight:850}.buy:disabled{opacity:.35;cursor:not-allowed}.cost{display:block;color:var(--gold);font-size:9px;margin-top:3px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+.stat{padding:14px 15px;background:#ffffff04;border:1px solid var(--border);border-radius:15px}.stat b{display:block;font-size:18px}.stat span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.float{position:fixed;pointer-events:none;font-weight:950;font-size:20px;z-index:20;animation:float 800ms ease-out forwards;text-shadow:0 3px 10px #000}
+@keyframes float{0%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-100px) scale(1.3)}}
+.gold-event{position:fixed;z-index:15;width:72px;height:72px;border-radius:50%;display:none;place-items:center;background:radial-gradient(circle,#fff,#ffd166 40%,#d58b00);box-shadow:0 0 50px #ffd166;cursor:pointer;animation:pulse 1s infinite;user-select:none}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(100px);padding:13px 18px;border:1px solid var(--border);border-radius:13px;background:#171923ee;backdrop-filter:blur(15px);font-size:12px;font-weight:800;transition:.3s;z-index:30}.toast.show{transform:translateX(-50%) translateY(0)}
+.modal-bg{position:fixed;inset:0;background:#000b;backdrop-filter:blur(10px);display:none;place-items:center;z-index:50}.modal-bg.show{display:grid}
+.modal{width:min(460px,92vw);padding:30px;text-align:center}.modal h2{font-size:30px;margin-bottom:8px}.modal p{font-size:13px;color:var(--muted);line-height:1.6}.modal button{margin-top:20px}
+.prestige-value{font-size:45px;font-weight:950;color:#b69aff;margin:15px}
+@media(max-width:850px){.dashboard{grid-template-columns:1fr}.click-area,.shop{min-height:550px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.coin{width:175px;height:175px}.coin:before{font-size:75px}.amount{font-size:48px}.stats{grid-template-columns:1fr 1fr}.item{grid-template-columns:38px 1fr auto}.item-icon{width:38px;height:38px}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="header"><div class="logo">COLOR<span>RUSH</span></div><div class="actions"><button class="icon" id="sound">🔊</button><button class="icon" id="pause" hidden>Ⅱ</button></div></header>
+<header>
+<div class="logo">IDLE<span>CLICKER</span></div>
+<div class="header-right"><button class="icon" id="sound">🔊</button><button class="icon" id="reset">↻</button></div>
+</header>
 
-<section class="screen active" id="menu">
-<div class="card menu">
-<div class="badge">⚡ QUICK REFLEX ARCADE</div>
-<h1>Color Rush</h1>
-<p class="subtitle">Catch the falling colors when they hit the target zone. Build your combo, trigger power-ups and survive as long as possible.</p>
-<button class="primary" id="start">Start Rush →</button>
-<div class="modes"><button class="mode selected" data-mode="classic">Classic</button><button class="mode" data-mode="blitz">Blitz</button><button class="mode" data-mode="zen">Zen</button></div>
-<div class="stats"><div class="stat"><b id="best">0</b><span>Best Score</span></div><div class="stat"><b id="bestCombo">0</b><span>Best Combo</span></div><div class="stat"><b id="games">0</b><span>Games Played</span></div></div>
-</div>
+<main class="dashboard">
+<section class="card click-area">
+<div class="currency">Your Coins</div>
+<div class="amount" id="coins">0</div>
+<div class="persec" id="cps">+0 / second</div>
+<button class="coin" id="coin" aria-label="Click"></button>
+<div class="click-power" id="clickPower">+1 per click</div>
+<div class="combo" id="combo"></div>
 </section>
 
-<section class="screen" id="game">
-<div class="card game">
-<div class="hud"><div><div class="label">Score</div><div class="value" id="score">0</div></div><div class="combo" id="combo">🔥 0 COMBO</div><div class="right"><div class="label">Lives</div><div class="value" id="lives">♥♥♥</div></div></div>
-<div class="game-wrap" id="gameWrap"><canvas id="canvas"></canvas><div class="game-info">CLICK THE SQUARES INSIDE THE TARGET ZONE</div></div>
-<div class="powerups" id="powerups"></div>
-<div class="bottom"><span id="difficulty">CLASSIC</span><button class="link" id="quit">Quit game</button></div>
-</div>
+<section class="card shop">
+<div class="shop-head"><h2>Upgrades</h2><span id="shopHint">Buy generators & upgrades</span></div>
+<div class="tabs"><button class="tab active" data-tab="generators">Generators</button><button class="tab" data-tab="upgrades">Upgrades</button></div>
+<div class="items" id="items"></div>
+</section>
+</main>
+
+<section class="stats">
+<div class="stat"><b id="total">0</b><span>Total Earned</span></div>
+<div class="stat"><b id="clicks">0</b><span>Clicks</span></div>
+<div class="stat"><b id="crit">0</b><span>Critical Hits</span></div>
+<div class="stat"><b id="prestige">0</b><span>Prestige</span></div>
 </section>
 </div>
 
-<div class="overlay" id="pauseOverlay"><div class="card modal"><div class="badge">PAUSED</div><h2>Take a breath.</h2><p>Your run is waiting.</p><br><div class="modal-buttons"><button class="primary" id="resume">Resume</button><button class="secondary" id="pauseQuit">Quit</button></div></div></div>
+<div class="gold-event" id="gold">★</div>
+<div class="toast" id="toast"></div>
 
-<div class="overlay" id="over"><div class="card modal"><div class="badge">RUN COMPLETE</div><h2 id="overTitle">Nice Rush.</h2><div class="final-score" id="finalScore">0</div><p id="message">Time to beat that score.</p><div class="results"><div class="result"><b id="finalCombo">0</b><span>Best Combo</span></div><div class="result"><b id="accuracy">0%</b><span>Accuracy</span></div><div class="result"><b id="rounds">0</b><span>Squares</span></div></div><div class="modal-buttons"><button class="primary" id="again">Rush Again →</button><button class="secondary" id="menuButton">Main Menu</button></div></div></div>
+<div class="modal-bg" id="prestigeModal">
+<div class="card modal">
+<h2>Ascend</h2>
+<p>Reset your coins and upgrades to gain permanent Prestige Points. Each point permanently increases all production.</p>
+<div class="prestige-value" id="prestigeGain">+0</div>
+<p>Requires 100,000 lifetime coins.</p>
+<button class="buy" id="prestigeBtn">Prestige</button>
+</div>
+</div>
 
 <script>
-const C=[["#ff4d6d","RED"],["#4d8dff","BLUE"],["#42d392","GREEN"],["#ffd166","YELLOW"],["#a875ff","PURPLE"],["#ff9f43","ORANGE"],["#ff72c6","PINK"],["#36d6d0","CYAN"]];
-const $=id=>document.getElementById(id),canvas=$("canvas"),ctx=canvas.getContext("2d");
-let mode="classic",running=false,paused=false,sound=true,raf=0,last=0,score=0,combo=0,bestCombo=0,lives=3,attempts=0,hits=0,squares=0,shake=0,spawnTimer=0,freeze=0,frenzy=0,magnet=0,objects=[],particles=[],audio;
+"use strict";
 
-const stat=k=>Number(localStorage.getItem("cr_"+k)||0),save=(k,v)=>localStorage.setItem("cr_"+k,v);
-function resize(){const r=canvas.getBoundingClientRect(),d=devicePixelRatio||1;canvas.width=r.width*d;canvas.height=r.height*d;ctx.setTransform(d,0,0,d,0,0)}addEventListener("resize",resize);resize();
+const $=id=>document.getElementById(id);
+const fmt=n=>n>=1e12?(n/1e12).toFixed(2)+"T":n>=1e9?(n/1e9).toFixed(2)+"B":n>=1e6?(n/1e6).toFixed(2)+"M":n>=1e3?(n/1e3).toFixed(2)+"K":Math.floor(n).toLocaleString();
+const saveKey="idle_clicker_v1";
 
-function tone(f,d=.08,t="sine",v=.035,delay=0){if(!sound)return;audio??=new(window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(.0001,audio.currentTime+delay);g.gain.exponentialRampToValueAtTime(v,audio.currentTime+delay+.01);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+delay+d);o.connect(g);g.connect(audio.destination);o.start(audio.currentTime+delay);o.stop(audio.currentTime+delay+d+.02)}
-function goodSound(){tone(580,.06);tone(850,.1,"sine",.03,.05)}
-function badSound(){tone(140,.12,"sawtooth",.025)}
-function powerSound(){tone(500,.08,"triangle");tone(700,.08,"triangle",.035,.08);tone(950,.14,"triangle",.04,.16)}
+const generators=[
+{id:"cursor",icon:"👆",name:"Auto Clicker",desc:"Clicks for you automatically.",base:15,prod:1,owned:0},
+{id:"miner",icon:"⛏️",name:"Coin Miner",desc:"Digs up coins every second.",base:100,prod:8,owned:0},
+{id:"factory",icon:"🏭",name:"Coin Factory",desc:"Mass produces coins.",base:650,prod:45,owned:0},
+{id:"bank",icon:"🏦",name:"Coin Bank",desc:"Generates passive wealth.",base:4000,prod:250,owned:0},
+{id:"reactor",icon:"⚛️",name:"Quantum Reactor",desc:"Turns energy into ridiculous money.",base:30000,prod:1500,owned:0},
+{id:"portal",icon:"🌀",name:"Money Portal",desc:"Pulls coins from another dimension.",base:250000,prod:10000,owned:0}
+];
 
-function show(s){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(s).classList.add("active");$("pause").hidden=s!=="game"}
+const upgrades=[
+{id:"strong",icon:"💪",name:"Stronger Clicks",desc:"+2 coins per click.",base:75,level:0,max:20},
+{id:"critical",icon:"💥",name:"Critical Chance",desc:"+5% critical click chance.",base:250,level:0,max:10},
+{id:"combo",icon:"🔥",name:"Combo Master",desc:"Combo multiplier grows faster.",base:1000,level:0,max:10},
+{id:"efficiency",icon:"⚙️",name:"Efficiency",desc:"+10% generator production.",base:1500,level:0,max:15},
+{id:"fortune",icon:"🍀",name:"Golden Fortune",desc:"Golden coins become more valuable.",base:5000,level:0,max:10},
+{id:"overclock",icon:"⚡",name:"Overclock",desc:"+25% production.",base:25000,level:0,max:10}
+];
 
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");mode=b.dataset.mode});
-$("sound").onclick=()=>{sound=!sound;$("sound").textContent=sound?"🔊":"🔇";if(sound&&audio)audio.resume()};
-$("start").onclick=start;
-$("again").onclick=()=>{$("over").classList.remove("show");start()};
-$("menuButton").onclick=()=>{stop();$("over").classList.remove("show");show("menu");menuStats()};
-$("quit").onclick=()=>{stop();show("menu");menuStats()};
-$("pause").onclick=pauseGame;
-$("resume").onclick=resumeGame;
-$("pauseQuit").onclick=()=>{stop();$("pauseOverlay").classList.remove("show");show("menu");menuStats()};
+let state={
+coins:0,total:0,clicks:0,crit:0,prestige:0,lastSave:Date.now(),
+combo:0,comboTime:0,tab:"generators",sound:true
+};
 
-function menuStats(){$("best").textContent=stat("best").toLocaleString();$("bestCombo").textContent=stat("combo");$("games").textContent=stat("games")}
-function speed(){const base=mode==="blitz"?330:mode==="zen"?205:255;return base+Math.min(270,squares*2.3)}
-function spawnRate(){const base=mode==="blitz"?330:mode==="zen"?700:520;return Math.max(190,base-squares*2)}
-function start(){score=combo=bestCombo=lives=3;attempts=hits=squares=0;freeze=frenzy=magnet=0;objects=[];particles=[];spawnTimer=0;running=true;paused=false;show("game");$("difficulty").textContent=mode.toUpperCase();resize();last=performance.now();raf=requestAnimationFrame(loop);updateHUD()}
-function stop(){running=false;cancelAnimationFrame(raf)}
-function pauseGame(){if(!running||paused)return;paused=true;$("pauseOverlay").classList.add("show")}
-function resumeGame(){paused=false;$("pauseOverlay").classList.remove("show");last=performance.now()}
-function spawn(){const w=canvas.clientWidth,h=canvas.clientHeight,size=34+Math.random()*18,c=C[Math.floor(Math.random()*C.length)];objects.push({x:size+Math.random()*(w-size*2),y:-size,size,color:c[0],name:c[1],vy:speed()*(.85+Math.random()*.35)});squares++}
-function targetY(){return canvas.clientHeight-105}
-function updateHUD(){$("score").textContent=score.toLocaleString();$("combo").textContent=`🔥 ${combo} COMBO`;$("lives").textContent="♥".repeat(lives)+"♡".repeat(3-lives)}
-function burst(x,y,color){for(let i=0;i<14;i++)particles.push({x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.5)*260,life:.5,color})}
-function powerCheck(){if(combo===10){frenzy=5;powerSound();$("powerups").innerHTML="<span class='power'>🔥 FRENZY ×2</span>"}if(combo===20){freeze=4;powerSound();$("powerups").innerHTML="<span class='power'>❄ FREEZE</span>"}if(combo===30){magnet=5;powerSound();$("powerups").innerHTML="<span class='power'>🧲 MAGNET</span>"}}
-function hit(o,x){const ty=targetY(),center=ty+30,dist=Math.abs(x-center);let points=dist<18?250:dist<38?150:100;if(frenzy)points*=2;const mult=1+Math.min(4,Math.floor(combo/5));score+=points*mult;combo++;bestCombo=Math.max(bestCombo,combo);hits++;goodSound();burst(o.x,o.y,o.color);if(dist<18){$("gameWrap").style.filter="brightness(1.4)";setTimeout(()=>$("gameWrap").style.filter="",100)}powerCheck();updateHUD()}
-function miss(){lives--;combo=0;shake=8;badSound();updateHUD();if(lives<=0)endGame("You ran out of lives.")}
-function click(e){if(!running||paused)return;const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;for(let i=objects.length-1;i>=0;i--){const o=objects[i];if(x>=o.x-o.size/2&&x<=o.x+o.size/2&&y>=o.y-o.size/2&&y<=o.y+o.size/2){attempts++;const ty=targetY();if(Math.abs(o.y-ty)<55){hit(o,o.y);objects.splice(i,1)}else{miss();objects.splice(i,1)}return}}}
-canvas.addEventListener("pointerdown",click);
+function load(){
+try{const s=JSON.parse(localStorage.getItem(saveKey));if(s)state={...state,...s}}catch{}
+generators.forEach(g=>{g.owned=state["g_"+g.id]||0});
+upgrades.forEach(u=>{u.level=state["u_"+u.id]||0});
+const offline=Math.min((Date.now()-state.lastSave)/1000,28800);
+if(offline>10){const earned=cps()*offline;state.coins+=earned;state.total+=earned;toast(`Welcome back! You earned ${fmt(earned)} coins while away.`)}
+}
+function persist(){
+generators.forEach(g=>state["g_"+g.id]=g.owned);
+upgrades.forEach(u=>state["u_"+u.id]=u.level);
+state.lastSave=Date.now();
+localStorage.setItem(saveKey,JSON.stringify(state));
+}
+function cps(){
+let value=generators.reduce((n,g)=>n+g.owned*g.prod,0);
+value*=1+upgrades.find(x=>x.id==="efficiency").level*.1;
+value*=1+upgrades.find(x=>x.id==="overclock").level*.25;
+value*=1+state.prestige*.15;
+return value;
+}
+function clickValue(){
+return 1+upgrades.find(x=>x.id==="strong").level*2;
+}
+function critChance(){return .05+upgrades.find(x=>x.id==="critical").level*.05}
+function comboMult(){return 1+Math.min(4,Math.floor(state.combo/(5-upgrades.find(x=>x.id==="combo").level*.25)))*.25}
+function genCost(g){return Math.floor(g.base*Math.pow(1.15,g.owned))}
+function upgradeCost(u){return Math.floor(u.base*Math.pow(2,u.level))}
+function earn(amount){state.coins+=amount;state.total+=amount}
+function floating(text,x,y){const el=document.createElement("div");el.className="float";el.textContent=text;el.style.left=x+"px";el.style.top=y+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),800)}
+function toast(text){const el=$("toast");el.textContent=text;el.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove("show"),2400)}
 
-function loop(now){if(!running)return;raf=requestAnimationFrame(loop);if(paused)return;const dt=Math.min(.033,(now-last)/1000);last=now;const s=freeze?speed()*.35:speed();spawnTimer+=dt*1000;if(spawnTimer>spawnRate()){spawn();spawnTimer=0}for(let i=objects.length-1;i>=0;i--){const o=objects[i];if(magnet){const ty=targetY();if(Math.abs(o.y-ty)<180)o.x+=(canvas.clientWidth/2-o.x)*dt*.7}o.y+=s*dt;if(o.y>canvas.clientHeight+o.size){objects.splice(i,1);attempts++;miss()}}particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=300*dt;p.life-=dt});particles=particles.filter(p=>p.life>0);freeze=Math.max(0,freeze-dt);frenzy=Math.max(0,frenzy-dt);magnet=Math.max(0,magnet-dt);if(frenzy<=0&&freeze<=0&&magnet<=0)$("powerups").innerHTML="";draw()}
-function draw(){const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);if(shake>0){ctx.save();ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=.86}const ty=targetY();ctx.fillStyle="#ffffff08";ctx.fillRect(0,ty,w,65);ctx.strokeStyle="#a78bfa80";ctx.lineWidth=2;ctx.strokeRect(0,ty,w,65);ctx.fillStyle="#a78bfa";ctx.font="700 10px system-ui";ctx.textAlign="center";ctx.fillText("TARGET ZONE",w/2,ty+38);objects.forEach(o=>{ctx.shadowColor=o.color;ctx.shadowBlur=18;ctx.fillStyle=o.color;ctx.fillRect(o.x-o.size/2,o.y-o.size/2,o.size,o.size);ctx.shadowBlur=0});particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life*2);ctx.fillStyle=p.color;ctx.fillRect(p.x-2,p.y-2,4,4)});ctx.globalAlpha=1;if(shake>0)ctx.restore()}
+function render(){
+$("coins").textContent=fmt(state.coins);
+$("cps").textContent=`+${fmt(cps())} / second`;
+$("clickPower").textContent=`+${fmt(clickValue()*comboMult())} per click`;
+$("total").textContent=fmt(state.total);
+$("clicks").textContent=fmt(state.clicks);
+$("crit").textContent=fmt(state.crit);
+$("prestige").textContent=fmt(state.prestige);
+$("combo").textContent=state.combo>1?`🔥 ${state.combo} COMBO ×${comboMult().toFixed(2)}`:"";
+renderShop();
+}
 
-function endGame(msg){stop();if(score>stat("best"))save("best",score);if(bestCombo>stat("combo"))save("combo",bestCombo);save("games",stat("games")+1);$("message").textContent=msg;$("finalCombo").textContent=bestCombo;$("accuracy").textContent=(attempts?Math.round(hits/attempts*100):0)+"%";$("rounds").textContent=squares;$("over").classList.add("show");animateScore(score)}
-function animateScore(target){const el=$("finalScore"),start=performance.now(),duration=1100;function tick(t){const p=Math.min(1,(t-start)/duration),e=1-Math.pow(1-p,4);el.textContent=Math.floor(target*e).toLocaleString();if(p<1)requestAnimationFrame(tick);else{el.textContent=target.toLocaleString();if(target>=stat("best")&&target>0){$("overTitle").textContent="NEW HIGH SCORE! 🏆";powerSound()}}}el.textContent="0";requestAnimationFrame(tick)}
-menuStats();
+function renderShop(){
+const box=$("items"),data=state.tab==="generators"?generators:upgrades;
+box.innerHTML=data.map(x=>{
+const cost=state.tab==="generators"?genCost(x):upgradeCost(x);
+const owned=state.tab==="generators"?x.owned:x.level;
+const max=state.tab==="upgrades"&&owned>=x.max;
+return `<div class="item"><div class="item-icon">${x.icon}</div><div><div class="item-name">${x.name}</div><div class="item-desc">${x.desc}</div><div class="item-owned">${state.tab==="generators"?"OWNED: "+owned:"LEVEL: "+owned+"/"+x.max}</div></div><button class="buy" data-id="${x.id}" ${state.coins<cost||max?"disabled":""}>${max?"MAX":"BUY"}<span class="cost">${max?"":fmt(cost)+" coins"}</span></button></div>`
+}).join("");
+}
+
+$("items").addEventListener("click",e=>{
+const btn=e.target.closest(".buy");if(!btn)return;
+const id=btn.dataset.id;
+if(state.tab==="generators"){
+const g=generators.find(x=>x.id===id),cost=genCost(g);if(state.coins<cost)return;
+state.coins-=cost;g.owned++;toast(`${g.icon} ${g.name} purchased!`);
+}else{
+const u=upgrades.find(x=>x.id===id),cost=upgradeCost(u);if(state.coins<cost||u.level>=u.max)return;
+state.coins-=cost;u.level++;toast(`${u.icon} ${u.name} upgraded!`);
+}
+render();
+});
+
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+t.classList.add("active");state.tab=t.dataset.tab;renderShop();
+});
+
+$("coin").addEventListener("pointerdown",e=>{
+let amount=clickValue()*comboMult(),critical=Math.random()<critChance();
+if(critical){amount*=5;state.crit++;floating("CRITICAL! +"+fmt(amount),e.clientX,e.clientY)}
+else floating("+"+fmt(amount),e.clientX,e.clientY);
+earn(amount);state.clicks++;state.combo++;state.comboTime=1.5;
+$("coin").animate([{transform:"scale(.91)"},{transform:"scale(1)"}],{duration:100,easing:"ease-out"});
+if(state.sound){try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=critical?700:400;g.gain.value=.035;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.06)}catch{}}
+render();
+});
+
+function spawnGolden(){
+const el=$("gold"),x=8+Math.random()*84,y=18+Math.random()*65;
+el.style.left=x+"vw";el.style.top=y+"vh";el.style.display="grid";
+clearTimeout(window.goldTimer);window.goldTimer=setTimeout(()=>el.style.display="none",8000);
+}
+$("gold").onclick=e=>{
+const fortune=upgrades.find(x=>x.id==="fortune").level;
+const reward=Math.max(100,state.coins*.08+1000)*(1+fortune*.3);
+earn(reward);$("gold").style.display="none";floating("⭐ +"+fmt(reward),e.clientX,e.clientY);toast("Golden Coin collected!");render();
+};
+
+function tick(dt){
+const income=cps()*dt;earn(income);
+if(state.comboTime>0){state.comboTime-=dt;if(state.comboTime<=0)state.combo=0}
+if(Math.random()<dt/35)spawnGolden();
+}
+function gameLoop(){
+const now=performance.now();const dt=Math.min((now-(window.last||now))/1000,.25);window.last=now;
+tick(dt);render();requestAnimationFrame(gameLoop);
+}
+
+$("reset").onclick=()=>{
+if(confirm("Reset all Idle Clicker progress? This cannot be undone.")){localStorage.removeItem(saveKey);location.reload()}
+};
+
+$("sound").onclick=()=>{state.sound=!state.sound;$("sound").textContent=state.sound?"🔊":"🔇"};
+
+setInterval(persist,5000);
+addEventListener("beforeunload",persist);
+
+load();
+render();
+gameLoop();
 </script>
 </body>
 </html>
