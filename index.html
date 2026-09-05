@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Rush</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #07080d;
+    --panel: rgba(19, 21, 32, 0.78);
+    --panel2: rgba(255, 255, 255, 0.045);
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #f7f7fb;
+    --muted: #8f94a8;
+    --purple: #8b5cf6;
+    --green: #4ade80;
+    --red: #fb7185;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(139,92,246,.16), transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(45,212,191,.08), transparent 30%),
+        var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
+    background-size: 45px 45px;
+}
+
+button {
+    font: inherit;
+}
+
+.app {
+    width: min(1050px, 94vw);
+    margin: auto;
+    padding: 28px 0;
+}
+
+/* HEADER */
+
+.header {
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: #9d7cff;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.04);
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.icon-button:hover {
+    background: rgba(255,255,255,.08);
+    transform: translateY(-2px);
+}
+
+/* SCREENS */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* CARD */
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    backdrop-filter: blur(25px);
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.35),
+        inset 0 1px rgba(255,255,255,.03);
+}
+
+/* MENU */
+
+.menu {
+    margin-top: 15px;
+    padding: 65px 30px;
+    text-align: center;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 13px;
+    border-radius: 999px;
+    border: 1px solid rgba(139,92,246,.25);
+    background: rgba(139,92,246,.08);
+    color: #bca9ff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.title {
+    margin-top: 25px;
+    font-size: clamp(58px, 10vw, 100px);
+    line-height: .85;
+    letter-spacing: -7px;
+    font-weight: 950;
+}
+
+.subtitle {
+    max-width: 520px;
+    margin: 25px auto 32px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.primary {
+    border: 0;
+    border-radius: 15px;
+    padding: 15px 27px;
+    color: white;
+    font-weight: 850;
+    cursor: pointer;
+    background: linear-gradient(135deg, #8b5cf6, #6745dc);
+    box-shadow: 0 15px 35px rgba(124,82,239,.25);
+    transition: .2s;
+}
+
+.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(124,82,239,.4);
+}
+
+.modes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.mode {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 9px 15px;
+    color: var(--muted);
+    background: rgba(255,255,255,.025);
+    cursor: pointer;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.mode:hover {
+    color: white;
+}
+
+.mode.selected {
+    color: white;
+    border-color: rgba(139,92,246,.55);
+    background: rgba(139,92,246,.13);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 620px;
+    margin: 30px auto 0;
+}
+
+.stat {
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255,255,255,.025);
+}
+
+.stat-value {
+    display: block;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.stat-name {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* GAME */
+
+.game {
+    margin-top: 15px;
+    padding: 22px;
+}
+
+.hud {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.hud-right {
+    text-align: right;
+}
+
+.label {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+}
+
+.value {
+    margin-top: 2px;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.combo {
+    color: #ffd166;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.timer {
+    height: 6px;
+    margin: 22px 0 35px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(255,255,255,.07);
+}
+
+.timer-bar {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #8b5cf6, #36d6bd);
+}
+
+.prompt {
+    text-align: center;
+}
+
+.prompt-small {
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.color-word {
+    min-height: 100px;
+    display: grid;
+    place-items: center;
+    font-size: clamp(50px, 9vw, 88px);
+    font-weight: 950;
+    letter-spacing: -5px;
+    text-shadow: 0 15px 45px rgba(0,0,0,.4);
+}
+
+.answers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 760px;
+    margin: 25px auto 15px;
+}
+
+.answer {
+    min-height: 82px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: rgba(255,255,255,.045);
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 850;
+    transition: transform .13s, background .13s;
+}
+
+.answer:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,.09);
+}
+
+.answer:active {
+    transform: scale(.96);
+}
+
+.answer.correct {
+    animation: correct .25s ease;
+}
+
+.answer.wrong {
+    animation: wrong .25s ease;
+}
+
+.feedback {
+    height: 25px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 850;
+}
+
+.feedback.good {
+    color: var(--green);
+}
+
+.feedback.bad {
+    color: var(--red);
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.link {
+    border: 0;
+    background: none;
+    color: #a78bfa;
+    cursor: pointer;
+}
+
+/* OVERLAYS */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    background: rgba(3,4,8,.75);
+    backdrop-filter: blur(10px);
+}
+
+.overlay.show {
+    display: grid;
+}
+
+.modal {
+    width: min(470px, 94vw);
+    padding: 38px;
+    text-align: center;
+}
+
+.modal h2 {
+    margin: 15px 0 5px;
+    font-size: 35px;
+    letter-spacing: -2px;
+}
+
+.modal p {
+    color: var(--muted);
+}
+
+.final-score {
+    margin: 15px 0;
+    font-size: 68px;
+    font-weight: 950;
+    letter-spacing: -5px;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.result {
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255,255,255,.025);
+}
+
+.result b {
+    display: block;
+    font-size: 18px;
+}
+
+.result span {
+    color: var(--muted);
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+.secondary {
+    padding: 13px 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+    color: white;
+    cursor: pointer;
+    font-weight: 750;
+}
+
+/* ACHIEVEMENTS */
+
+.achievements {
+    margin-top: 15px;
+    padding: 25px;
+}
+
+.achievements h2 {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.achievement-list {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+}
+
+.achievement {
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: rgba(255,255,255,.025);
+}
+
+.achievement.locked {
+    opacity: .35;
+}
+
+.achievement-icon {
+    font-size: 22px;
+}
+
+.achievement-name {
+    margin-top: 7px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.achievement-desc {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* ANIMATIONS */
+
+@keyframes correct {
+    50% {
+        transform: scale(1.07);
+        background: rgba(74,222,128,.15);
+    }
+}
+
+@keyframes wrong {
+    25% { transform: translateX(-7px); }
+    50% { transform: translateX(7px); }
+    75% { transform: translateX(-4px); }
+}
+
+@keyframes pop {
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes shake {
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+}
+
+.pop {
+    animation: pop .2s ease;
+}
+
+.shake {
+    animation: shake .25s ease;
+}
+
+/* MOBILE */
+
+@media(max-width:650px) {
+
+    .app {
+        width: 94vw;
+    }
+
+    .menu {
+        padding: 45px 20px;
+    }
+
+    .title {
+        letter-spacing: -5px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .answers {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .hud {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .combo {
+        grid-column: 1/-1;
+        grid-row: 1;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .color-word {
+        font-size: 58px;
+    }
+
+    .achievement-list {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+    <div class="logo">
+        COLOR<span>RUSH</span>
+    </div>
+
+    <div class="header-buttons">
+        <button class="icon-button" id="soundButton">🔊</button>
+        <button class="icon-button" id="pauseButton" style="display:none">
+            Ⅱ
+        </button>
+    </div>
+
+</header>
+
+
+<!-- MENU -->
+
+<section id="menuScreen" class="screen active">
+
+<div class="card menu">
+
+    <div class="badge">
+        ⚡ QUICK REFLEX ARCADE
+    </div>
+
+    <h1 class="title">
+        Color Rush
+    </h1>
+
+    <p class="subtitle">
+        Read the color. Find the matching button.
+        React quickly, build your combo and push your high score.
+    </p>
+
+    <button class="primary" id="startButton">
+        Start Rush →
+    </button>
+
+    <div class="modes">
+
+        <button class="mode selected" data-mode="classic">
+            Classic
+        </button>
+
+        <button class="mode" data-mode="blitz">
+            Blitz
+        </button>
+
+        <button class="mode" data-mode="zen">
+            Zen
+        </button>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <span class="stat-value" id="bestScore">0</span>
+            <span class="stat-name">Best Score</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value" id="bestCombo">0</span>
+            <span class="stat-name">Best Combo</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value" id="gamesPlayed">0</span>
+            <span class="stat-name">Games Played</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card achievements">
+
+    <h2>Achievements</h2>
+
+    <div class="achievement-list" id="achievementList"></div>
+
+</div>
+
+</section>
+
+
+<!-- GAME -->
+
+<section id="gameScreen" class="screen">
+
+<div class="card game" id="gameCard">
+
+    <div class="hud">
+
+        <div>
+            <div class="label">Score</div>
+            <div class="value" id="score">0</div>
+        </div>
+
+        <div class="combo" id="combo">
+            🔥 0 COMBO
+        </div>
+
+        <div class="hud-right">
+            <div class="label">Round</div>
+            <div class="value" id="round">1</div>
+        </div>
+
+    </div>
+
+
+    <div class="timer">
+        <div class="timer-bar" id="timerBar"></div>
+    </div>
+
+
+    <div class="prompt">
+
+        <div class="prompt-small">
+            CLICK THE COLOR THAT MATCHES
+        </div>
+
+        <div class="color-word" id="colorWord">
+            RED
+        </div>
+
+    </div>
+
+
+    <div class="answers" id="answers"></div>
+
+
+    <div class="feedback" id="feedback"></div>
+
+
+    <div class="bottom">
+
+        <span id="difficulty">
+            CLASSIC
+        </span>
+
+        <button class="link" id="quitButton">
+            Quit game
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- PAUSE -->
+
+<div class="overlay" id="pauseOverlay">
+
+<div class="card modal">
+
+    <div class="badge">
+        PAUSED
+    </div>
+
+    <h2>Take a breath.</h2>
+
+    <p>
+        Your run is waiting for you.
+    </p>
+
+    <br>
+
+    <div class="modal-buttons">
+
+        <button class="primary" id="resumeButton">
+            Resume
+        </button>
+
+        <button class="secondary" id="pauseQuitButton">
+            Quit
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- GAME OVER -->
+
+<div class="overlay" id="gameOverOverlay">
+
+<div class="card modal">
+
+    <div class="badge">
+        RUN COMPLETE
+    </div>
+
+    <h2 id="gameOverTitle">
+        Nice Rush.
+    </h2>
+
+    <div class="final-score" id="finalScore">
+        0
+    </div>
+
+    <p id="resultMessage">
+        Great run!
+    </p>
+
+
+    <div class="results">
+
+        <div class="result">
+            <b id="finalCombo">0</b>
+            <span>Best Combo</span>
+        </div>
+
+        <div class="result">
+            <b id="finalAccuracy">0%</b>
+            <span>Accuracy</span>
+        </div>
+
+        <div class="result">
+            <b id="finalRound">0</b>
+            <span>Rounds</span>
+        </div>
+
+    </div>
+
+
+    <div class="modal-buttons">
+
+        <button class="primary" id="againButton">
+            Rush Again →
+        </button>
+
+        <button class="secondary" id="menuButton">
+            Main Menu
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   COLOR RUSH
+================================ */
+
+const COLORS = [
+
+    {
+        name: "RED",
+        hex: "#ff4d6d"
+    },
+
+    {
+        name: "BLUE",
+        hex: "#4d8dff"
+    },
+
+    {
+        name: "GREEN",
+        hex: "#42d392"
+    },
+
+    {
+        name: "YELLOW",
+        hex: "#ffd166"
+    },
+
+    {
+        name: "PURPLE",
+        hex: "#a875ff"
+    },
+
+    {
+        name: "ORANGE",
+        hex: "#ff9f43"
+    },
+
+    {
+        name: "PINK",
+        hex: "#ff72c6"
+    },
+
+    {
+        name: "CYAN",
+        hex: "#36d6d0"
+    }
+
+];
+
+
+/* ================================
+   GAME STATE
+================================ */
+
+let mode = "classic";
+
+let score = 0;
+let combo = 0;
+let bestComboRun = 0;
+
+let round = 0;
+
+let correct = 0;
+let attempts = 0;
+
+let currentColor = null;
+
+let deadline = 0;
+let timer = null;
+
+let paused = false;
+let soundEnabled = true;
+
+let audioContext = null;
+
+
+/* ================================
+   LOCAL STORAGE
+================================ */
+
+function getStat(name) {
+
+    return Number(
+        localStorage.getItem("colorRush_" + name) || 0
+    );
+
+}
+
+
+function setStat(name, value) {
+
+    localStorage.setItem(
+        "colorRush_" + name,
+        value
+    );
+
+}
+
+
+function updateMenuStats() {
+
+    document.getElementById("bestScore")
+        .textContent =
+        getStat("bestScore").toLocaleString();
+
+    document.getElementById("bestCombo")
+        .textContent =
+        getStat("bestCombo");
+
+    document.getElementById("gamesPlayed")
+        .textContent =
+        getStat("games");
+
+}
+
+
+/* ================================
+   ACHIEVEMENTS
+================================ */
+
+const ACHIEVEMENTS = [
+
+    {
+        id: "first",
+        icon: "🎯",
+        name: "First Rush",
+        desc: "Finish your first game.",
+        check: () => getStat("games") >= 1
+    },
+
+    {
+        id: "combo10",
+        icon: "🔥",
+        name: "On Fire",
+        desc: "Reach a 10 combo.",
+        check: () => getStat("bestCombo") >= 10
+    },
+
+    {
+        id: "combo25",
+        icon: "💥",
+        name: "Unstoppable",
+        desc: "Reach a 25 combo.",
+        check: () => getStat("bestCombo") >= 25
+    },
+
+    {
+        id: "score5000",
+        icon: "💰",
+        name: "Score Hunter",
+        desc: "Score 5,000 points.",
+        check: () => getStat("bestScore") >= 5000
+    },
+
+    {
+        id: "score10000",
+        icon: "👑",
+        name: "Color Master",
+        desc: "Score 10,000 points.",
+        check: () => getStat("bestScore") >= 10000
+    },
+
+    {
+        id: "score25000",
+        icon: "⚡",
+        name: "Rush Legend",
+        desc: "Score 25,000 points.",
+        check: () => getStat("bestScore") >= 25000
+    }
+
+];
+
+
+function renderAchievements() {
+
+    const container =
+        document.getElementById("achievementList");
+
+    container.innerHTML = "";
+
+    ACHIEVEMENTS.forEach(a => {
+
+        const unlocked = a.check();
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "achievement" +
+            (unlocked ? "" : " locked");
+
+        div.innerHTML = `
+
+            <div class="achievement-icon">
+                ${a.icon}
+            </div>
+
+            <div class="achievement-name">
+                ${a.name}
+            </div>
+
+            <div class="achievement-desc">
+                ${a.desc}
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* ================================
+   AUDIO
+================================ */
+
+function initAudio() {
+
+    if (!soundEnabled)
+        return;
+
+    if (!audioContext) {
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    if (
+        audioContext.state === "suspended"
+    ) {
+
+        audioContext.resume();
+
+    }
+
+}
+
+
+function playTone(
+    frequency,
+    duration = .08,
+    type = "sine",
+    volume = .035,
+    delay = 0
+) {
+
+    if (!soundEnabled)
+        return;
+
+    initAudio();
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.type = type;
+
+    oscillator.frequency.setValueAtTime(
+        frequency,
+        audioContext.currentTime + delay
+    );
+
+    gain.gain.setValueAtTime(
+        .0001,
+        audioContext.currentTime + delay
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioContext.currentTime +
+        delay +
+        .01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioContext.currentTime +
+        delay +
+        duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start(
+        audioContext.currentTime + delay
+    );
+
+    oscillator.stop(
+        audioContext.currentTime +
+        delay +
+        duration +
+        .02
+    );
+
+}
+
+
+function correctSound() {
+
+    playTone(560, .07);
+    playTone(820, .11, "sine", .03, .055);
+
+}
+
+
+function wrongSound() {
+
+    playTone(
+        150,
+        .12,
+        "sawtooth",
+        .025
+    );
+
+    playTone(
+        105,
+        .14,
+        "sawtooth",
+        .018,
+        .07
+    );
+
+}
+
+
+function achievementSound() {
+
+    playTone(500, .08, "triangle");
+    playTone(700, .08, "triangle", .035, .08);
+    playTone(950, .15, "triangle", .04, .16);
+
+}
+
+
+/* ================================
+   UI
+================================ */
+
+const menuScreen =
+    document.getElementById("menuScreen");
+
+const gameScreen =
+    document.getElementById("gameScreen");
+
+
+function showScreen(screen) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(
+            x => x.classList.remove("active")
+        );
+
+    screen.classList.add("active");
+
+    document.getElementById("pauseButton")
+        .style.display =
+        screen === gameScreen
+            ? "block"
+            : "none";
+
+}
+
+
+/* ================================
+   MODE BUTTONS
+================================ */
+
+document
+    .querySelectorAll(".mode")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(".mode")
+                    .forEach(
+                        x =>
+                            x.classList.remove(
+                                "selected"
+                            )
+                    );
+
+                button.classList.add(
+                    "selected"
+                );
+
+                mode =
+                    button.dataset.mode;
+
+            }
+        );
+
+    });
+
+
+/* ================================
+   GAME START
+================================ */
+
+function startGame() {
+
+    initAudio();
+
+    score = 0;
+    combo = 0;
+    bestComboRun = 0;
+
+    round = 0;
+
+    correct = 0;
+    attempts = 0;
+
+    paused = false;
+
+    showScreen(gameScreen);
+
+    document.getElementById(
+        "difficulty"
+    ).textContent =
+        mode.toUpperCase();
+
+    nextRound();
+
+}
+
+
+/* ================================
+   DIFFICULTY
+================================ */
+
+function getRoundTime() {
+
+    if (mode === "blitz") {
+
+        return Math.max(
+            750,
+            1800 - round * 40
+        );
+
+    }
+
+    if (mode === "zen") {
+
+        return Math.max(
+            2800,
+            4500 - round * 12
+        );
+
+    }
+
+    return Math.max(
+        1100,
+        3200 - round * 45
+    );
+
+}
+
+
+function getOptionCount() {
+
+    if (round < 8)
+        return 4;
+
+    if (round < 18)
+        return 5;
+
+    return 6;
+
+}
+
+
+/* ================================
+   NEW ROUND
+================================ */
+
+function nextRound() {
+
+    round++;
+
+    currentColor =
+        COLORS[
+            Math.floor(
+                Math.random() *
+                COLORS.length
+            )
+        ];
+
+
+    document.getElementById("round")
+        .textContent = round;
+
+
+    document.getElementById("score")
+        .textContent =
+        score.toLocaleString();
+
+
+    document.getElementById("combo")
+        .textContent =
+        `🔥 ${combo} COMBO`;
+
+
+    const word =
+        document.getElementById("colorWord");
+
+    word.textContent =
+        currentColor.name;
+
+    word.style.color =
+        currentColor.hex;
+
+    word.classList.remove("pop");
+
+    void word.offsetWidth;
+
+    word.classList.add("pop");
+
+
+    createAnswers();
+
+
+    const duration =
+        getRoundTime();
+
+    deadline =
+        performance.now() + duration;
+
+
+    stopTimer();
+
+
+    timer = setInterval(
+        updateTimer,
+        35
+    );
+
+}
+
+
+/* ================================
+   ANSWERS
+================================ */
+
+function createAnswers() {
+
+    const container =
+        document.getElementById(
+            "answers"
+        );
+
+    container.innerHTML = "";
+
+
+    let choices = [currentColor];
+
+
+    while (
+        choices.length <
+        getOptionCount()
+    ) {
+
+        const color =
+            COLORS[
+                Math.floor(
+                    Math.random() *
+                    COLORS.length
+                )
+            ];
+
+        if (!choices.includes(color)) {
+
+            choices.push(color);
+
+        }
+
+    }
+
+
+    choices.sort(
+        () => Math.random() - .5
+    );
+
+
+    choices.forEach(color => {
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+        button.className =
+            "answer";
+
+        button.textContent =
+            color.name;
+
+        button.addEventListener(
+            "click",
+            () => chooseColor(
+                color,
+                button
+            )
+        );
+
+        container.appendChild(button);
+
+    });
+
+}
+
+
+/* ================================
+   TIMER
+================================ */
+
+function updateTimer() {
+
+    if (paused)
+        return;
+
+    const remaining =
+        Math.max(
+            0,
+            deadline -
+            performance.now()
+        );
+
+    const duration =
+        getRoundTime();
+
+    const percentage =
+        Math.min(
+            100,
+            remaining / duration * 100
+        );
+
+
+    document.getElementById(
+        "timerBar"
+    ).style.width =
+        percentage + "%";
+
+
+    if (remaining <= 0) {
+
+        timeOut();
+
+    }
+
+}
+
+
+/* ================================
+   COLOR SELECTION
+================================ */
+
+function chooseColor(
+    color,
+    button
+) {
+
+    if (paused)
+        return;
+
+
+    attempts++;
+
+
+    if (color === currentColor) {
+
+        correct++;
+
+        combo++;
+
+        bestComboRun =
+            Math.max(
+                bestComboRun,
+                combo
+            );
+
+
+        const multiplier =
+            1 +
+            Math.min(
+                3,
+                Math.floor(
+                    combo / 5
+                )
+            );
+
+
+        const speedBonus =
+            Math.max(
+                0,
+                Math.round(
+                    (
+                        deadline -
+                        performance.now()
+                    ) / 45
+                )
+            );
+
+
+        score +=
+            100 *
+            multiplier +
+            speedBonus;
+
+
+        button.classList.add(
+            "correct"
+        );
+
+
+        const feedback =
+            document.getElementById(
+                "feedback"
+            );
+
+
+        if (combo >= 20) {
+
+            feedback.textContent =
+                "💀 ABSURD!";
+
+        } else if (combo >= 10) {
+
+            feedback.textContent =
+                "🔥 INSANE!";
+
+        } else if (combo >= 5) {
+
+            feedback.textContent =
+                "⚡ GREAT!";
+
+        } else {
+
+            feedback.textContent =
+                "✓ NICE!";
+
+        }
+
+
+        feedback.className =
+            "feedback good";
+
+
+        correctSound();
+
+
+        if (
+            combo > 0 &&
+            combo % 10 === 0
+        ) {
+
+            achievementSound();
+
+        }
+
+
+        nextRound();
+
+    }
+
+    else {
+
+        combo = 0;
+
+        score =
+            Math.max(
+                0,
+                score - 75
+            );
+
+
+        button.classList.add(
+            "wrong"
+        );
+
+
+        const feedback =
+            document.getElementById(
+                "feedback"
+            );
+
+
+        feedback.textContent =
+            "✕ WRONG COLOR";
+
+        feedback.className =
+            "feedback bad";
+
+
+        wrongSound();
+
+
+        const card =
+            document.getElementById(
+                "gameCard"
+            );
+
+
+        card.classList.remove(
+            "shake"
+        );
+
+        void card.offsetWidth;
+
+        card.classList.add(
+            "shake"
+        );
+
+
+        deadline =
+            Math.max(
+                performance.now() + 350,
+                deadline - 500
+            );
+
+    }
+
+}
+
+
+/* ================================
+   TIME OUT
+================================ */
+
+function timeOut() {
+
+    stopTimer();
+
+    wrongSound();
+
+    endGame(
+        "Time ran out!"
+    );
+
+}
+
+
+/* ================================
+   END GAME
+================================ */
+
+function endGame(message) {
+
+    stopTimer();
+
+
+    const oldBest =
+        getStat("bestCombo");
+
+
+    if (
+        score >
+        getStat("bestScore")
+    ) {
+
+        setStat(
+            "bestScore",
+            score
+        );
+
+    }
+
+
+    if (
+        bestComboRun >
+        getStat("bestCombo")
+    ) {
+
+        setStat(
+            "bestCombo",
+            bestComboRun
+        );
+
+    }
+
+
+    setStat(
+        "games",
+        getStat("games") + 1
+    );
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        score.toLocaleString();
+
+
+    document.getElementById(
+        "finalCombo"
+    ).textContent =
+        bestComboRun;
+
+
+    document.getElementById(
+        "finalAccuracy"
+    ).textContent =
+        (
+            attempts
+                ? Math.round(
+                    correct /
+                    attempts *
+                    100
+                )
+                : 0
+        ) + "%";
+
+
+    document.getElementById(
+        "finalRound"
+    ).textContent =
+        Math.max(
+            0,
+            round - 1
+        );
+
+
+    document.getElementById(
+        "resultMessage"
+    ).textContent =
+        message;
+
+
+    if (
+        bestComboRun >
+        oldBest
+    ) {
+
+        achievementSound();
+
+    }
+
+
+    renderAchievements();
+
+
+    document.getElementById(
+        "gameOverOverlay"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+/* ================================
+   TIMER CONTROL
+================================ */
+
+function stopTimer() {
+
+    if (timer) {
+
+        clearInterval(timer);
+
+        timer = null;
+
+    }
+
+}
+
+
+/* ================================
+   PAUSE
+================================ */
+
+function pauseGame() {
+
+    if (
+        !gameScreen.classList.contains(
+            "active"
+        ) ||
+        paused
+    )
+        return;
+
+
+    paused = true;
+
+    document.getElementById(
+        "pauseOverlay"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function resumeGame() {
+
+    paused = false;
+
+    document.getElementById(
+        "pauseOverlay"
+    ).classList.remove(
+        "show"
+    );
+
+
+    deadline =
+        performance.now() +
+        Math.max(
+            900,
+            getRoundTime()
+        );
+
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+document
+    .getElementById("startButton")
+    .onclick =
+    startGame;
+
+
+document
+    .getElementById("againButton")
+    .onclick =
+    () => {
+
+        document
+            .getElementById(
+                "gameOverOverlay"
+            )
+            .classList.remove(
+                "show"
+            );
+
+        startGame();
+
+    };
+
+
+document
+    .getElementById("menuButton")
+    .onclick =
+    () => {
+
+        document
+            .getElementById(
+                "gameOverOverlay"
+            )
+            .classList.remove(
+                "show"
+            );
+
+        stopTimer();
+
+        showScreen(menuScreen);
+
+        updateMenuStats();
+        renderAchievements();
+
+    };
+
+
+document
+    .getElementById("quitButton")
+    .onclick =
+    () => {
+
+        stopTimer();
+
+        showScreen(menuScreen);
+
+        updateMenuStats();
+
+    };
+
+
+document
+    .getElementById("pauseButton")
+    .onclick =
+    pauseGame;
+
+
+document
+    .getElementById("resumeButton")
+    .onclick =
+    resumeGame;
+
+
+document
+    .getElementById("pauseQuitButton")
+    .onclick =
+    () => {
+
+        paused = false;
+
+        document
+            .getElementById(
+                "pauseOverlay"
+            )
+            .classList.remove(
+                "show"
+            );
+
+        stopTimer();
+
+        showScreen(menuScreen);
+
+        updateMenuStats();
+
+    };
+
+
+/* ================================
+   SOUND
+================================ */
+
+document
+    .getElementById("soundButton")
+    .onclick =
+    () => {
+
+        soundEnabled =
+            !soundEnabled;
+
+        document
+            .getElementById(
+                "soundButton"
+            )
+            .textContent =
+            soundEnabled
+                ? "🔊"
+                : "🔇";
+
+
+        if (soundEnabled)
+            initAudio();
+
+    };
+
+
+/* ================================
+   KEYBOARD
+================================ */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            gameScreen.classList.contains(
+                "active"
+            )
+        ) {
+
+            if (paused)
+                resumeGame();
+            else
+                pauseGame();
+
+        }
+
+    }
+);
+
+
+/* ================================
+   INITIALIZE
+================================ */
+
+updateMenuStats();
+
+renderAchievements();
+
+</script>
+
+</body>
+</html>
